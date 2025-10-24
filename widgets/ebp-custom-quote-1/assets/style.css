@@ -1,0 +1,37 @@
+section {
+  padding-block: 4rem;
+}
+
+.ebp-custom-quote-1 * {
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+.ebp-custom-quote-1 h2 {
+  font-size: clamp(2rem, 1.4286rem + 2.8571vw, 4rem) !important;
+  line-height: 1;
+	font-family: "rooney-sans", Sans-serif;
+}
+
+.ebp-custom-quote-1 p {
+  font-size: clamp(1.125rem, 0.7893rem + 1.6786vw, 2.3rem);
+  margin-bottom: 0;
+  max-width: 80ch;
+  margin-inline: auto;
+}
+
+.ebp-custom-quote-1 .image-repeater-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+@media (min-width: 1441px) {
+  .ebp-custom-quote-1 .about-style-two {
+    padding-top: 0 !important;
+  }
+  .ebp-custom-quote-1 .about-style-two h2 {
+    margin-bottom: 4rem;
+  }
+}

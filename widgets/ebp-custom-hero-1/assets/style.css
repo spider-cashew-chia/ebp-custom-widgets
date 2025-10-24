@@ -1,0 +1,231 @@
+.ebp-custom-hero-1 .back {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  width: auto;
+}
+
+.ebp-custom-hero-1 .container {
+  max-width: calc(100% - 200px);
+}
+
+.ebp-custom-hero-1 {
+  min-height: 100vh;
+  /* padding: 1rem 0 0 0; */
+}
+
+.ebp-custom-hero-1 .background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  /* max-width: 50%;
+  margin-left: auto !important; */
+}
+
+.ebp-custom-hero-1 .min-vh-75 {
+  min-height: 100vh !important;
+}
+
+.ebp-custom-hero-1 .text-content *,
+.hero-rich-text-2 a {
+  color: #f7f4ec;
+}
+
+/* .ebp-custom-hero-1 h1 {
+  font-size: 2rem !important;
+}
+
+.ebp-custom-hero-1 .text-content p {
+  font-size: 1.25rem !important;
+}
+
+.ebp-custom-hero-1 .text-content a {
+  color: #f7f7f7;
+  text-decoration: underline;
+}
+
+.ebp-custom-hero-1 .hero-rich-text-2 a {
+  font-size: 1.5rem !important;
+  color: #f7f7f7 !important;
+} */
+
+.ebp-custom-hero-1 .col-md-8 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ebp-custom-hero-1 .text-content p:last-of-type a {
+  font-weight: 300;
+}
+
+.ebp-custom-hero-1 .text-content p:last-of-type {
+  margin-block-start: 4rem;
+}
+
+.ebp-custom-hero-1 .text-content a {
+  text-decoration: underline;
+}
+
+.ebp-custom-hero-1 strong {
+  font-weight: 900;
+}
+
+.ebp-custom-hero-1 .text-content p {
+  margin-block-end: 1.5rem;
+  font-weight: 100;
+}
+
+@media (min-width: 1441px) {
+  .ebp-custom-hero-1 h1 {
+    font-size: clamp(2.5rem, 0.3788rem + 2.3553vw, 4rem) !important;
+    margin-block-end: 1em;
+  }
+
+  .ebp-custom-hero-1 .text-content p {
+    font-size: clamp(1.25rem, 0.2273rem + 1.4132vw, 2.4rem);
+  }
+
+  .ebp-custom-hero-1 .text-content p:last-of-type a {
+    font-size: clamp(1.125rem, -0.0018rem + 1.2511vw, 2rem);
+  }
+
+  .ebp-custom-hero-1 .text-content {
+    padding-top: 22rem;
+  }
+
+  .ebp-custom-hero-1 .hero-rich-text-2 {
+    margin-top: 5rem;
+  }
+
+  .ebp-custom-hero-1 .hero-rich-text-2 a {
+    font-size: clamp(1.5rem, 0.2122rem + 1.4298vw, 2.5rem);
+  }
+}
+
+@media (max-width: 1440px) {
+  .ebp-custom-hero-1 h1 {
+    font-size: clamp(2rem, 1.7143rem + 1.4286vw, 3rem) !important;
+  }
+
+  .ebp-custom-hero-1 .text-content p {
+    font-size: clamp(1.125rem, 1.0893rem + 0.1786vw, 1.25rem);
+  }
+
+  .ebp-custom-hero-1 .text-content {
+    padding-top: 10rem;
+  }
+
+  .ebp-custom-hero-1 .hero-rich-text-2 {
+    margin-top: 3rem;
+  }
+}
+
+.ebp-custom-hero-1 .level-1 {
+  position: relative;
+  z-index: 32 !important;
+}
+
+.ebp-custom-hero-1 .py-20 {
+  padding-top: 10rem !important;
+  padding-bottom: 10rem !important;
+}
+
+/* .ebp-custom-hero-1 .background img {
+  height: 100%;
+  object-fit: cover;
+} */
+
+.ebp-custom-hero-1 .background img {
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  max-height: 100%;
+  height: 100%;
+}
+
+.mobile-section--image {
+  position: relative;
+}
+
+.mobile-section--image h1 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9;
+}
+
+.mobile-text-content p {
+  font-size: 1rem;
+  font-weight: 100;
+}
+
+.mobile-section--image img {
+  height: 50vh !important;
+  min-height: 400px;
+  object-fit: cover;
+}
+
+.mobile-section--text {
+  padding-block: 1.5rem;
+}
+
+.mobile-section--text a {
+  color: #f7f4ec;
+  text-decoration: underline !important;
+}
+
+@media (max-width: 991px) {
+  .ebp-custom-hero-1 .background {
+    max-width: 100%;
+  }
+
+  .ebp-custom-hero-1 {
+    position: relative;
+  }
+
+  .ebp-custom-hero-1 .background:before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ebp-custom-hero-1 .py-10 {
+    padding-block: 0 !important;
+  }
+
+  .ebp-custom-hero-1 .py-20 {
+    padding-block: 0 !important;
+  }
+
+  .ebp-custom-hero-1 .text-content p {
+    font-size: 0.9rem !important;
+  }
+
+  .ebp-custom-hero-1 .hero-rich-text-2 a {
+    font-size: 1rem !important;
+  }
+
+  .hero-section--text {
+    justify-content: center;
+  }
+
+  .mobile-text-content h2 {
+    font-size: clamp(1.125rem, 0.7077rem + 2.0864vw, 2rem) !important;
+	  margin-bottom: 1.125rem !important;
+  }
+}

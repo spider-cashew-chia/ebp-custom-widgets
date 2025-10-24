@@ -1,0 +1,83 @@
+.ebp-custom-contact-2 .form-control {
+  background-color: transparent;
+  border: 2px solid #f7f7f7;
+  border-radius: 0;
+  /* color: #ffffff; */
+}
+.ebp-custom-contact-2 .form-floating label {
+  color: #f7f7f7;
+}
+
+.ebp-custom-contact-2 textarea {
+  min-height: 150px !important;
+}
+
+/* .ebp-custom-contact-2 h2 {
+  font-size: clamp(2rem, 1.4286rem + 2.8571vw, 4rem) !important;
+} */
+
+.ebp-custom-contact-2 h2 {
+  position: relative;
+  padding-inline-start: 4.5rem;
+  font-size: 3rem !important;
+  /* max-width: 300px; */
+}
+
+.ebp-custom-contact-2 h2:before {
+  content: '';
+  background-image: url(/wp-content/uploads/2025/09/target-scaffolding-round-circle-light.svg);
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  left: 0;
+  top: 0.5rem;
+  background-size: contain;
+  /* transform: translateY(-50%); */
+}
+
+.custom-button {
+  background-color: #f7f4ec;
+  padding: 1.1rem 4rem;
+  border-radius: 0;
+  font-weight: bold;
+  border: none;
+}
+
+.button-container {
+  text-align: right;
+}
+
+.wpcf7-response-output {
+  padding-inline-start: 0 !important;
+  margin-inline: 0 !important;
+  border: 0 !important;
+}
+
+@media (min-width: 1441px) {
+  h2.contact-heading {
+    font-size: 3.4rem !important;
+    margin-bottom: 4rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .ebp-custom-contact-2 h2 {
+    position: relative;
+    padding-inline-start: 3rem;
+    font-size: 2.5rem !important;
+    max-width: 300px;
+  }
+
+  .ebp-custom-contact-2 h2:before {
+    width: 30px;
+    height: 30px;
+    left: 0;
+    top: 0.5rem;
+    background-size: contain;
+    /* transform: translateY(-50%); */
+  }
+
+  .ebp-custom-contact-2 .text-content p {
+    font-size: 1rem;
+  }
+}

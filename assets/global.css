@@ -1,0 +1,196 @@
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 900;
+  text-wrap: balance;
+  line-height: 1.1em;
+  margin-block-end: 0.5em;
+}
+
+.site-main section {
+  scroll-margin-top: 120px;
+}
+
+.site-main h2 {
+  font-size: clamp(1.5rem, 1.2143rem + 1.4286vw, 2.5rem);
+}
+
+.site-main ul {
+  margin: 0 0 0.5em 1em !important;
+  padding-inline-start: 0 !important;
+}
+
+@media (min-width: 1441px) {
+  .container {
+    max-width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 1199px) {
+  .container {
+    max-width: 100% !important;
+  }
+}
+
+header {
+  position: relative;
+  z-index: 9;
+}
+
+.site-footer {
+  display: none;
+}
+
+.py-5 {
+  padding-block: 7rem !important;
+}
+
+.py-10 {
+  padding-block: 3rem !important;
+}
+
+.theme-btn {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  font-size: 16px;
+  line-height: 30px;
+  font-weight: 500;
+  font-family: var(--title-font);
+  color: var(--title-color) !important;
+  text-align: center;
+  border-radius: 50px;
+  padding: 15px 40px;
+  z-index: 1;
+  transition: all 0.5s ease-in-out 0s;
+}
+
+figure {
+  position: relative;
+}
+
+figure:before {
+  content: '';
+  background-color: rgba(74, 15, 143, 0.30);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+@media (max-width: 991px) {
+  figure:before {
+    content: '';
+    background-color: rgba(74, 15, 143, 0.5) !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .home .site-main section .min-vh-100 {
+    min-height: 78vh !important;
+  }
+}
+
+.theme-btn.btn-one {
+  background: #f3931a;
+}
+
+/* .row {
+  --bs-gutter-x: 3rem;
+} */
+
+body {
+  margin-block-end: 0 !important;
+}
+
+/* GSAP Heading Animation Styles */
+.gsap-heading-wrapper {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.gsap-heading-wrapper .line {
+  display: block;
+  overflow: hidden;
+}
+
+.gsap-heading-wrapper .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.gsap-heading-wrapper .char {
+  display: inline-block;
+  transform-style: preserve-3d;
+}
+
+/* Ensure headings maintain their original styling */
+.gsap-heading-wrapper h1,
+.gsap-heading-wrapper h2,
+.gsap-heading-wrapper h3 {
+  margin: 0;
+  display: inline;
+}
+
+/* Loading Animation Styles - Because even loading should be elegant */
+#ebp-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #4a0f8f; /* Your brand purple - adjust as needed */
+  z-index: 9999;
+  display: block; /* Show immediately */
+  opacity: 1;
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+  transform: translateY(0);
+  /* border-bottom: 1px solid #fff; */
+}
+
+/* The magic happens here - bottom to top reveal */
+/* @keyframes revealFromBottom {
+  0% {
+    clip-path: inset(100% 0 0 0); 
+  }
+  100% {
+    clip-path: inset(0% 0 0 0); 
+  }
+} */
+
+/* Logo - just appears normally while overlay reveals */
+.ebp-loading-content::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 123px;
+  /* margin: -30px 0 0 -60px; */
+  background-image: url('/wp-content/uploads/2025/09/target-scaffolding-logo-2.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%);
+}
+
+/* @keyframes fadeInLogo {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
