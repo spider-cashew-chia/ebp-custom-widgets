@@ -34,7 +34,7 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
     // Enqueue widget assets
     public function get_script_depends()
     {
-        return ['jquery'];
+        return ['jquery', 'ebp-custom-text-block-3-script'];
     }
 
     public function get_style_depends()
@@ -57,11 +57,11 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
 
         // First Rich Text Field
         $this->add_control(
-            'hero_rich_text_3',
+            'section_heading',
             [
-                'label' => __('First Rich Text', 'ebp-custom-widgets'),
+                'label' => __('Section Heading', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<h2>Your Hero Heading</h2><p>This is your first rich text content that can include HTML formatting.</p>', 'ebp-custom-widgets'),
+                'default' => __('<h2>Your Section Heading</h2><p>This is your section heading content that can include HTML formatting.</p>', 'ebp-custom-widgets'),
             ]
         );
 
@@ -70,13 +70,47 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
         // Repeater for Text Blocks
         $repeater = new \Elementor\Repeater();
 
+        // Main Text Content (always visible)
         $repeater->add_control(
-            'text_block_content',
+            'main_text_content',
             [
-                'label' => __('Text Block Content', 'ebp-custom-widgets'),
+                'label' => __('Main Text Content', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<p>Enter your text block content here. You can use HTML formatting.</p>', 'ebp-custom-widgets'),
-                'placeholder' => __('Enter text content...', 'ebp-custom-widgets'),
+                'default' => __('<p>This is your main content that will always be visible.</p>', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter your main content here...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Expanded Text Content (hidden by default)
+        $repeater->add_control(
+            'expanded_text_content',
+            [
+                'label' => __('Expanded Text Content', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => __('<p>This is additional content that will be hidden by default and shown when the read more button is clicked.</p>', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter your expanded content here...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Read More Button Text
+        $repeater->add_control(
+            'read_more_text',
+            [
+                'label' => __('Read More Button Text', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('Read More', 'ebp-custom-widgets'),
+                'placeholder' => __('Read More', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Read Less Button Text
+        $repeater->add_control(
+            'read_less_text',
+            [
+                'label' => __('Read Less Button Text', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('Read Less', 'ebp-custom-widgets'),
+                'placeholder' => __('Read Less', 'ebp-custom-widgets'),
             ]
         );
 
@@ -88,13 +122,19 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
                 'fields' => $repeater->get_controls(),
                 'default' => [
                     [
-                        'text_block_content' => __('<p>First text block content goes here.</p>', 'ebp-custom-widgets'),
+                        'main_text_content' => __('<p>First text block main content goes here.</p>', 'ebp-custom-widgets'),
+                        'expanded_text_content' => __('<p>This is additional content for the first text block.</p>', 'ebp-custom-widgets'),
+                        'read_more_text' => __('Read More', 'ebp-custom-widgets'),
+                        'read_less_text' => __('Read Less', 'ebp-custom-widgets'),
                     ],
                     [
-                        'text_block_content' => __('<p>Second text block content goes here.</p>', 'ebp-custom-widgets'),
+                        'main_text_content' => __('<p>Second text block main content goes here.</p>', 'ebp-custom-widgets'),
+                        'expanded_text_content' => __('<p>This is additional content for the second text block.</p>', 'ebp-custom-widgets'),
+                        'read_more_text' => __('Read More', 'ebp-custom-widgets'),
+                        'read_less_text' => __('Read Less', 'ebp-custom-widgets'),
                     ],
                 ],
-                'title_field' => '{{{ text_block_content.replace(/<[^>]*>/g, "").substring(0, 50) }}}...',
+                'title_field' => '{{{ main_text_content.replace(/<[^>]*>/g, "").substring(0, 50) }}}...',
             ]
         );
 
@@ -112,14 +152,28 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
         //     ]
         // );
 
+        // Background Color Control
         $this->add_control(
-            'hero_text_color',
+            'background_color',
             [
-                'label' => __('Hero Text Color', 'ebp-custom-widgets'),
+                'label' => __('Background Color', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'selectors' => [
+                    '{{WRAPPER}} .ebp-custom-text-block-3' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        // Font Color Control
+        $this->add_control(
+            'font_color',
+            [
+                'label' => __('Font Color', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-text-block-1' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ebp-custom-text-block-3' => 'color: {{VALUE}};',
                 ],
             ]
         );
@@ -142,23 +196,47 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
                     <div class="col">
                         <!-- Section Heading -->
                         <?php if (!empty($settings['section_heading'])): ?>
-                            <h2 class="section-heading"><?php echo esc_html($settings['section_heading']); ?></h2>
+                            <div class="section-heading"><?php echo wp_kses_post($settings['section_heading']); ?></div>
                         <?php endif; ?>
                     </div>
                 </div>
+            </div>
+            <div class="container mt-4">
                 <div class="row">
                     <?php if (!empty($settings['text_blocks'])): ?>
                         <?php foreach ($settings['text_blocks'] as $index => $item): ?>
                             <div class="col-md-4">
                                 <!-- Text Block Content -->
                                 <div class="text-block-item">
-                                    <?php echo wp_kses_post($item['text_block_content']); ?>
+                                    <div class="text-content mb-3">
+                                        <!-- Main content (always visible) -->
+                                        <div class="main-content">
+                                            <?php echo wp_kses_post($item['main_text_content']); ?>
+                                        </div>
+
+                                        <!-- Expanded content (hidden by default) -->
+                                        <?php if (!empty($item['expanded_text_content'])): ?>
+                                            <div class="expanded-content" style="display: none;">
+                                                <?php echo wp_kses_post($item['expanded_text_content']); ?>
+                                            </div>
+
+                                            <!-- Read More/Less Button -->
+                                            <div class="read-more-container">
+                                                <button class="read-more-btn" data-item-id="<?php echo esc_attr($item['_id']); ?>"
+                                                    data-read-more="<?php echo esc_attr($item['read_more_text']); ?>"
+                                                    data-read-less="<?php echo esc_attr($item['read_less_text']); ?>" aria-expanded="false">
+                                                    <?php echo esc_html($item['read_more_text']); ?>
+                                                </button>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
             </div>
+
         </div>
         <!-- about-style-two end -->
         <?php

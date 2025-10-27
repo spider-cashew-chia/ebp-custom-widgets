@@ -28,9 +28,14 @@ window.addEventListener('scroll', () => {
 });
 
 // Headings
-const headings = document.querySelectorAll(
-  'section h1, section h2, section h3, .block-home-slider h1'
+const containers = document.querySelectorAll('.site-main .e-con');
+const targetContainers = Array.from(containers).slice(2); // skip the first two
+
+// Gather all headings inside the remaining .e-con elements
+const headings = targetContainers.flatMap((container) =>
+  Array.from(container.querySelectorAll('h1, h2, h3, h4'))
 );
+
 headings.forEach((heading) => {
   const split = new SplitText(heading, {
     type: 'words',
@@ -45,15 +50,21 @@ headings.forEach((heading) => {
     stagger: 0.07,
     scrollTrigger: {
       trigger: heading,
-      start: 'top 80%',
+      start: 'top 70%',
       once: true,
+      // markers: true,
     },
   });
 });
 
 // Paragraphs
-const paragraphs = document.querySelectorAll('section p');
+// Paragraphs (excluding footer)
+const paragraphs = document.querySelectorAll(
+  '.site-main .e-con p, .site-main .e-con li'
+);
+
 gsap.set(paragraphs, { opacity: 0, y: 30 });
+
 paragraphs.forEach((paragraph) => {
   gsap.to(paragraph, {
     opacity: 1,

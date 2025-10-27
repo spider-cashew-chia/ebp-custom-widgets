@@ -120,7 +120,7 @@ class Ebp_Custom_Services_1 extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'background-color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -133,7 +133,7 @@ class Ebp_Custom_Services_1 extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
-                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -187,91 +187,94 @@ class Ebp_Custom_Services_1 extends Widget_Base
 
         // Loop through each hero section in the repeater
         foreach ($settings['hero_sections'] as $index => $item):
+            // Get background and font colors for this item
+            $background_color = !empty($item['background_color']) ? $item['background_color'] : '#ffffff';
+            $font_color = !empty($item['font_color']) ? $item['font_color'] : '#000000';
             ?>
-            <div
-                class="overflow-hidden inverted ebp-custom-services-1 elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>">
+<div class="overflow-hidden inverted ebp-custom-services-1 elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>"
+    style="background-color: <?php echo esc_attr($background_color); ?>; color: <?php echo esc_attr($font_color); ?>;">
 
 
-                <div class=" container-fluid back back-background">
-                    <div class="row h-100">
-                        <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
-                            <figure class="background" role="none">
-                                <?php if (!empty($item['image']['url'])): ?>
-                                    <img src="<?php echo esc_url($item['image']['url']); ?>" alt="Image" class="w-100">
-                                <?php endif; ?>
+    <div class=" container-fluid back back-background">
+        <div class="row h-100">
+            <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
+                <figure class="background" role="none">
+                    <?php if (!empty($item['image']['url'])): ?>
+                    <img src="<?php echo esc_url($item['image']['url']); ?>" alt="Image" class="w-100">
+                    <?php endif; ?>
 
-                                <!-- Gallery Icon Overlay -->
-                                <?php if (!empty($item['gallery_images'])): ?>
-                                    <div class="gallery-icon-overlay" data-gallery-id="gallery-<?php echo esc_attr($item['_id']); ?>">
-                                        <img src="/wp-content/uploads/2025/09/view-gallery-icon-1.svg" alt="View Gallery"
-                                            class="gallery-icon">
-                                    </div>
-                                <?php endif; ?>
-                            </figure>
-
-                        </div>
+                    <!-- Gallery Icon Overlay -->
+                    <?php if (!empty($item['gallery_images'])): ?>
+                    <div class="gallery-icon-overlay" data-gallery-id="gallery-<?php echo esc_attr($item['_id']); ?>">
+                        <img src="/wp-content/uploads/2025/09/view-gallery-icon-1.svg" alt="View Gallery"
+                            class="gallery-icon">
                     </div>
-                </div>
-
-                <div class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text">
-                    <div class="row align-items-center justify-content-center justify-content-lg-start my-auto">
-                        <div class="col-md-8 col-lg-5 text-lg-start">
-                            <div class="text-content mb-3">
-                                <!-- Main content (always visible) -->
-                                <div class="main-content">
-                                    <?php echo wp_kses_post($item['main_text_content']); ?>
-                                </div>
-
-                                <!-- Expanded content (hidden by default) -->
-                                <?php if (!empty($item['expanded_text_content'])): ?>
-                                    <div class="expanded-content" style="display: none;">
-                                        <?php echo wp_kses_post($item['expanded_text_content']); ?>
-                                    </div>
-
-                                    <!-- Read More/Less Button -->
-                                    <div class="read-more-container">
-                                        <button class="read-more-btn" data-item-id="<?php echo esc_attr($item['_id']); ?>"
-                                            data-read-more="<?php echo esc_attr($item['read_more_text']); ?>"
-                                            data-read-less="<?php echo esc_attr($item['read_less_text']); ?>">
-                                            <?php echo esc_html($item['read_more_text']); ?>
-                                        </button>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
+                    <?php endif; ?>
+                </figure>
 
             </div>
-            <?php
+        </div>
+    </div>
+
+    <div class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text">
+        <div class="row align-items-center justify-content-center justify-content-lg-start my-auto">
+            <div class="col-md-8 col-lg-5 text-lg-start">
+                <div class="text-content mb-3">
+                    <!-- Main content (always visible) -->
+                    <div class="main-content">
+                        <?php echo wp_kses_post($item['main_text_content']); ?>
+                    </div>
+
+                    <!-- Expanded content (hidden by default) -->
+                    <?php if (!empty($item['expanded_text_content'])): ?>
+                    <div class="expanded-content" style="display: none;">
+                        <?php echo wp_kses_post($item['expanded_text_content']); ?>
+                    </div>
+
+                    <!-- Read More/Less Button -->
+                    <div class="read-more-container">
+                        <button class="read-more-btn" data-item-id="<?php echo esc_attr($item['_id']); ?>"
+                            data-read-more="<?php echo esc_attr($item['read_more_text']); ?>"
+                            data-read-less="<?php echo esc_attr($item['read_less_text']); ?>">
+                            <?php echo esc_html($item['read_more_text']); ?>
+                        </button>
+                    </div>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<?php
         endforeach;
 
         // Add popup galleries for each service item that has gallery images
         foreach ($settings['hero_sections'] as $index => $item):
             if (!empty($item['gallery_images'])):
                 ?>
-                <!-- Gallery Popup -->
-                <div id="gallery-<?php echo esc_attr($item['_id']); ?>" class="gallery-popup" style="display: none;">
-                    <div class="gallery-popup-overlay"></div>
-                    <div class="gallery-popup-content">
-                        <button class="gallery-close" aria-label="Close Gallery">&times;</button>
-                        <div class="gallery-slider">
-                            <?php foreach ($item['gallery_images'] as $gallery_image): ?>
-                                <div class="gallery-slide">
-                                    <img src="<?php echo esc_url($gallery_image['url']); ?>" alt="Gallery Image">
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="gallery-navigation">
-                            <button class="gallery-prev" aria-label="Previous Image">&#8249;</button>
-                            <button class="gallery-next" aria-label="Next Image">&#8250;</button>
-                        </div>
-                    </div>
-                </div>
-                <?php
+<!-- Gallery Popup -->
+<div id="gallery-<?php echo esc_attr($item['_id']); ?>" class="gallery-popup" style="display: none;">
+    <div class="gallery-popup-overlay"></div>
+    <div class="gallery-popup-content">
+        <button class="gallery-close" aria-label="Close Gallery">&times;</button>
+        <div class="gallery-slider">
+            <?php foreach ($item['gallery_images'] as $gallery_image): ?>
+            <div class="gallery-slide">
+                <img src="<?php echo esc_url($gallery_image['url']); ?>" alt="Gallery Image">
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="gallery-navigation">
+            <button class="gallery-prev" aria-label="Previous Image">&#8249;</button>
+            <button class="gallery-next" aria-label="Next Image">&#8250;</button>
+        </div>
+    </div>
+</div>
+<?php
             endif;
         endforeach;
     }

@@ -1,6 +1,6 @@
-section {
+/* section {
   padding-block: 4rem;
-}
+} */
 
 .ebp-custom-quote-1 * {
   font-family: inherit;
@@ -10,7 +10,7 @@ section {
 .ebp-custom-quote-1 h2 {
   font-size: clamp(2rem, 1.4286rem + 2.8571vw, 4rem) !important;
   line-height: 1;
-	font-family: "rooney-sans", Sans-serif;
+  font-family: 'rooney-sans', Sans-serif;
 }
 
 .ebp-custom-quote-1 p {

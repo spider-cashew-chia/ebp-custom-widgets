@@ -265,6 +265,32 @@ class Ebp_Custom_Footer_1 extends Widget_Base
             ]
         );
 
+        // Copyright Section
+        $this->add_control(
+            'show_copyright',
+            [
+                'label' => __('Show Copyright Section', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'ebp-custom-widgets'),
+                'label_off' => __('No', 'ebp-custom-widgets'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        // Copyright Content
+        $this->add_control(
+            'copyright_content',
+            [
+                'label' => __('Copyright Content', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => __('© 2024 Your Company Name. All rights reserved.', 'ebp-custom-widgets'),
+                'condition' => [
+                    'show_copyright' => 'yes',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         // Style Section
@@ -468,6 +494,21 @@ class Ebp_Custom_Footer_1 extends Widget_Base
         </div>
         <?php endif; ?>
     </div>
+
+    <!-- Copyright Section -->
+    <?php if ($settings['show_copyright'] === 'yes' && !empty($settings['copyright_content'])): ?>
+    <div class="footer-copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="copyright-content">
+                        <?php echo wp_kses_post($settings['copyright_content']); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>
 <?php
     }

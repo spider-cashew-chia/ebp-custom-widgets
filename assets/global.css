@@ -8,20 +8,113 @@ h4 {
   margin-block-end: 0.5em;
 }
 
-.site-main section {
-  scroll-margin-top: 120px;
+h1 {
+  font-size: clamp(2rem, 1.7143rem + 1.4286vw, 3rem) !important;
 }
 
-.site-main h2 {
-  font-size: clamp(1.5rem, 1.2143rem + 1.4286vw, 2.5rem);
+h2 {
+  font-size: clamp(1.75rem, 1.5357rem + 1.0714vw, 2.5rem) !important;
 }
+
+h3 {
+  font-size: clamp(1.5rem, 1.3571rem + 0.7143vw, 2rem) !important;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 1.1071rem + 0.7143vw, 1.75rem) !important;
+}
+
+a {
+  color: inherit;
+}
+
+.site-main a,
+footer a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+}
+
+.site-main button,
+footer a {
+  text-decoration-thickness: 2px !important;
+}
+
+body {
+  font-family: sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 1em 0;
+  line-height: 1.6;
+  max-width: 90ch;
+  font-size: 1.125rem !important;
+}
+
+li,
+button {
+  font-size: 1.125rem !important;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  /* margin-top: 1.5em; */
+  margin-bottom: 0.5em;
+  padding: 0;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+h4 {
+  font-size: 1.2em;
+}
+
+.site-main section {
+  scroll-margin-top: 60px;
+}
+
+/* .site-main h2 {
+  font-size: clamp(1.5rem, 1.2143rem + 1.4286vw, 2.5rem);
+} */
 
 .site-main ul {
   margin: 0 0 0.5em 1em !important;
   padding-inline-start: 0 !important;
 }
 
-@media (min-width: 1441px) {
+.e-con > .e-con-inner {
+  max-width: 100%;
+}
+
+.e-con {
+  padding: 0 !important;
+}
+
+.container {
+  max-width: 1100px;
+  padding-inline: 0.75rem;
+}
+
+section .elementor-widget-container > div:first-of-type {
+  padding-block: 4rem;
+}
+
+/* @media (min-width: 1441px) {
   .container {
     max-width: calc(100% - 200px);
   }
@@ -31,7 +124,7 @@ h4 {
   .container {
     max-width: 100% !important;
   }
-}
+} */
 
 header {
   position: relative;
@@ -71,9 +164,9 @@ figure {
   position: relative;
 }
 
-figure:before {
+/* figure:before {
   content: '';
-  background-color: rgba(74, 15, 143, 0.30);
+  background-color: rgba(74, 15, 143, 0.3);
   position: absolute;
   top: 0;
   left: 0;
@@ -93,7 +186,7 @@ figure:before {
     height: 100%;
     z-index: 1;
   }
-}
+} */
 
 @media (max-width: 767px) {
   .home .site-main section .min-vh-100 {

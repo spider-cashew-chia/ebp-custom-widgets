@@ -109,7 +109,7 @@ class Ebp_Custom_Header_1 extends Widget_Base
             [
                 'label' => __('Contact Email', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('bev@bossconsultingltd.co.uk', 'ebp-custom-widgets'),
+                'default' => __('mail@example.co.uk', 'ebp-custom-widgets'),
             ]
         );
 
@@ -119,7 +119,7 @@ class Ebp_Custom_Header_1 extends Widget_Base
             [
                 'label' => __('Contact Phone', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('07710 464115', 'ebp-custom-widgets'),
+                'default' => __('07123456789', 'ebp-custom-widgets'),
             ]
         );
 
@@ -251,7 +251,7 @@ class Ebp_Custom_Header_1 extends Widget_Base
                 </div>
             </div><!-- .site-branding -->
 
-            <div class="header-right gap-3 text-white d-flex align-items-center">
+            <div class="header-right gap-3 text-white d-flex align-items-center sg">
                 <!-- Contact Email -->
                 <?php if (!empty($settings['contact_email'])): ?>
                 <a href="mailto:<?php echo esc_attr($settings['contact_email']); ?>"

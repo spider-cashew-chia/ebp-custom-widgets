@@ -2,7 +2,11 @@
 .ebp-custom-footer-1 {
   width: 100%;
   margin: 0;
-  padding: 60px 0;
+  padding: 60px 0 0 0;
+}
+
+.footer-copyright {
+  border-top: 1px solid #fff;
 }
 
 /* Footer Logo Section */
@@ -15,7 +19,7 @@
   position: relative;
 }
 
-.footer-columns .row .footer-column:first-of-type::before {
+/* .footer-columns .row .footer-column:first-of-type::before {
   content: '';
   position: absolute;
   top: 0;
@@ -41,7 +45,7 @@
   .footer-columns .row .footer-column:first-of-type::before {
     content: none;
   }
-}
+} */
 
 .footer-logo {
   max-height: 60px;
@@ -54,9 +58,9 @@
 }
 
 /* Footer Columns */
-.footer-columns {
+/* .footer-columns {
   margin-top: 30px;
-}
+} */
 
 .footer-column {
   margin-bottom: 30px;

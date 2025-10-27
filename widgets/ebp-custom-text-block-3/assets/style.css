@@ -1,10 +1,10 @@
-section {
+/* section {
   padding-block: 4rem;
-}
+} */
 
 .ebp-custom-text-block-3 h2 {
   position: relative;
-  padding-inline-start: 4rem;
+  /* padding-inline-start: 4rem; */
 }
 
 .ebp-custom-text-block-3 h2:before {
@@ -20,32 +20,32 @@ section {
 }
 
 @media (min-width: 1441px) {
-  .ebp-custom-text-block-3 p {
+  /* .ebp-custom-text-block-3 p {
     font-size: clamp(1.125rem, 0.6421rem + 0.5362vw, 1.5rem);
-  }
-  body .ebp-custom-text-block-3 h2 {
+  } */
+  /* body .ebp-custom-text-block-3 h2 {
     font-size: 4rem !important;
     margin-bottom: 5rem;
-  }
+  } */
 }
 
 @media (max-width: 1440px) {
-  .ebp-custom-text-block-3 p {
+  /* .ebp-custom-text-block-3 p {
     font-size: clamp(1.125rem, 1.0179rem + 0.5357vw, 1.5rem);
-  }
+  } */
 }
 
-.ebp-custom-text-block-3 h2 {
+/* .ebp-custom-text-block-3 h2 {
   font-size: clamp(2rem, 1.7143rem + 1.4286vw, 3rem) !important;
 }
 
 .ebp-custom-text-block-3 h3 {
   font-size: clamp(1.75rem, 1.3929rem + 1.7857vw, 3rem) !important;
-}
+} */
 
-.ebp-custom-text-block-3 p {
+/* .ebp-custom-text-block-3 p {
   font-size: clamp(1.125rem, 1.0179rem + 0.5357vw, 1.5rem);
-}
+} */
 
 @media (min-width: 992px) {
   .ebp-custom-text-block-3 .text-block-item {
@@ -56,7 +56,7 @@ section {
 @media (max-width: 991px) {
   .ebp-custom-text-block-3 h2 {
     position: relative;
-    padding-inline-start: 3rem;
+    /* padding-inline-start: 3rem; */
     font-size: 2.5rem !important;
     max-width: 300px;
   }
@@ -73,4 +73,30 @@ section {
   .ebp-custom-text-block-3 .text-content p {
     font-size: 1rem;
   }
+}
+
+/* Read More/Less Button Styling */
+.ebp-custom-text-block-3 .read-more-container {
+  margin-top: 1rem;
+}
+
+.ebp-custom-text-block-3 .read-more-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ebp-custom-text-block-3 .read-more-btn:hover {
+  opacity: 0.7;
+}
+
+.ebp-custom-text-block-3 .read-more-btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }

@@ -54,15 +54,15 @@ class Ebp_Custom_Contact_2 extends Widget_Base
             ]
         );
 
-        // Heading Control
+        // Text Content Control - Rich Text
         $this->add_control(
-            'contact_heading',
+            'text_content',
             [
-                'label' => __('Heading', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
+                'label' => __('Text Content', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::WYSIWYG,
                 'default' => __('Contact Us', 'ebp-custom-widgets'),
-                'placeholder' => __('Enter heading text', 'ebp-custom-widgets'),
-                'description' => __('Enter the main heading for the contact section', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter text content', 'ebp-custom-widgets'),
+                'description' => __('Enter the main text content for the contact section. You can use rich text formatting.', 'ebp-custom-widgets'),
             ]
         );
 
@@ -78,6 +78,20 @@ class Ebp_Custom_Contact_2 extends Widget_Base
             ]
         );
 
+        // Background Color Control
+        $this->add_control(
+            'background_color',
+            [
+                'label' => __('Background Color', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#ffffff',
+                'description' => __('Choose the background color for the contact section', 'ebp-custom-widgets'),
+                'selectors' => [
+                    '{{WRAPPER}} .ebp-custom-contact-2' => 'background-color: {{VALUE}};',
+                ],
+            ]
+        );
+
         // Font Color Control
         $this->add_control(
             'font_color',
@@ -87,7 +101,7 @@ class Ebp_Custom_Contact_2 extends Widget_Base
                 'default' => '#333333',
                 'description' => __('Choose the text color for the heading and form', 'ebp-custom-widgets'),
                 'selectors' => [
-                    '{{WRAPPER}} .contact-heading' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .text-content' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .contact-form-wrapper' => 'color: {{VALUE}};',
                 ],
             ]
@@ -100,26 +114,26 @@ class Ebp_Custom_Contact_2 extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         ?>
-        <div class="ebp-custom-contact-2">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <!-- Heading -->
-                        <?php if (!empty($settings['contact_heading'])): ?>
-                            <h2 class="contact-heading"><?php echo esc_html($settings['contact_heading']); ?></h2>
-                        <?php endif; ?>
+<div class="ebp-custom-contact-2">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!-- Text Content -->
+                <?php if (!empty($settings['text_content'])): ?>
+                <div class="text-content"><?php echo wp_kses_post($settings['text_content']); ?></div>
+                <?php endif; ?>
 
-                        <!-- Contact Form 7 -->
-                        <?php if (!empty($settings['contact_form_7'])): ?>
-                            <div class="contact-form-wrapper">
-                                <?php echo do_shortcode('[contact-form-7 id="' . esc_attr($settings['contact_form_7']) . '"]'); ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                <!-- Contact Form 7 -->
+                <?php if (!empty($settings['contact_form_7'])): ?>
+                <div class="contact-form-wrapper">
+                    <?php echo do_shortcode('[contact-form-7 id="' . esc_attr($settings['contact_form_7']) . '"]'); ?>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
-        <?php
+    </div>
+</div>
+<?php
     }
 
     /**

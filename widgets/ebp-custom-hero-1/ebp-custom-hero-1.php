@@ -148,70 +148,71 @@ class Ebp_Custom_Hero_1 extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         ?>
-        <div class="overflow-hidden inverted hero-section ebp-custom-hero-1">
+<div class="overflow-hidden inverted hero-section ebp-custom-hero-1">
 
-            <div class="container-fluid back back-background d-none d-lg-block">
-                <div class="row h-100">
-                    <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
-                        <figure class="background" role="none">
-                            <?php if (!empty($settings['hero_image']['url'])): ?>
-                                <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
-                            <?php endif; ?>
-                        </figure>
-                    </div>
-                </div>
+    <div class="container-fluid back back-background d-none d-lg-block">
+        <div class="row h-100">
+            <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
+                <figure class="background" role="none">
+                    <?php if (!empty($settings['hero_image']['url'])): ?>
+                    <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
+                    <?php endif; ?>
+                </figure>
             </div>
+        </div>
+    </div>
 
-            <div class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text d-none d-lg-block">
-                <div class="row align-items-center  justify-content-lg-start">
-                    <div class="col-md-8 col-lg-5  text-lg-start">
-
-
-                        <!-- Desktop Rich Text Content -->
-                        <div class="text-content mb-3 d-none d-md-block">
-                            <?php echo wp_kses_post($settings['hero_rich_text_1']); ?>
-                        </div>
+    <div
+        class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text d-none d-lg-flex justify-content-center">
+        <div class="row align-items-center  justify-content-lg-start">
+            <div class="col-md-8 col-lg-5  text-lg-start">
 
 
-
-                        <div class="hero-rich-text-2">
-                            <?php echo wp_kses_post($settings['hero_rich_text_2']); ?>
-                        </div>
-
-                    </div>
+                <!-- Desktop Rich Text Content -->
+                <div class="text-content mb-3 d-none d-md-block">
+                    <?php echo wp_kses_post($settings['hero_rich_text_1']); ?>
                 </div>
+
+
+
+                <div class="hero-rich-text-2">
+                    <?php echo wp_kses_post($settings['hero_rich_text_2']); ?>
+                </div>
+
             </div>
+        </div>
+    </div>
 
-            <!-- mobile section -->
-            <div class="mobile-section d-block d-lg-none">
-                <div class="mobile-section--image">
-                    <figure class="background-1" role="none">
-                        <?php if (!empty($settings['hero_image']['url'])): ?>
-                            <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
-                        <?php endif; ?>
-                    </figure>
-                    <!-- Hero Heading -->
-                    <div class="container">
-                        <div class="row">
-                            <?php if (!empty($settings['hero_heading'])): ?>
-                                <h1 class="hero-heading mb-3"><?php echo esc_html($settings['hero_heading']); ?></h1>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="mobile-section--text">
-                    <!-- Mobile Rich Text Content -->
-                    <div class="container">
-
-                        <div class="mobile-text-content mb-3 ">
-                            <?php echo wp_kses_post($settings['hero_mobile_rich_text']); ?>
-                        </div>
-                    </div>
+    <!-- mobile section -->
+    <div class="mobile-section d-block d-lg-none">
+        <div class="mobile-section--image">
+            <figure class="background-1" role="none">
+                <?php if (!empty($settings['hero_image']['url'])): ?>
+                <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
+                <?php endif; ?>
+            </figure>
+            <!-- Hero Heading -->
+            <div class="container">
+                <div class="row">
+                    <?php if (!empty($settings['hero_heading'])): ?>
+                    <h1 class="hero-heading mb-3"><?php echo esc_html($settings['hero_heading']); ?></h1>
+                    <?php endif; ?>
                 </div>
             </div>
 
         </div>
-        <?php
+        <div class="mobile-section--text">
+            <!-- Mobile Rich Text Content -->
+            <div class="container">
+
+                <div class="mobile-text-content my-4 ">
+                    <?php echo wp_kses_post($settings['hero_mobile_rich_text']); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<?php
     }
 }

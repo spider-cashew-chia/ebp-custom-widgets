@@ -43,6 +43,13 @@ function register_ebp_custom_text_block_3($widgets_manager)
 }
 add_action('elementor/widgets/register', 'register_ebp_custom_text_block_3');
 
+// text block 1
+function register_ebp_custom_text_block_1($widgets_manager)
+{
+    require_once(__DIR__ . '/widgets/ebp-custom-text-block-1/ebp-custom-text-block-1.php');
+    $widgets_manager->register(new \Ebp_Custom_Text_Block_1());
+}
+add_action('elementor/widgets/register', 'register_ebp_custom_text_block_1');
 
 // custom header 1
 function register_ebp_custom_header_1($widgets_manager)
@@ -152,6 +159,10 @@ function my_widget_assets()
     // text block 3
     wp_enqueue_style('ebp-custom-text-block-3-style', plugins_url('/widgets/ebp-custom-text-block-3/assets/style.css', __FILE__), [], '1.0.0');
     wp_enqueue_script('ebp-custom-text-block-3-script', plugins_url('/widgets/ebp-custom-text-block-3/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+
+    // text block 1
+    wp_enqueue_style('ebp-custom-text-block-1-style', plugins_url('/widgets/ebp-custom-text-block-1/assets/style.css', __FILE__), [], '1.0.0');
+    wp_enqueue_script('ebp-custom-text-block-1-script', plugins_url('/widgets/ebp-custom-text-block-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
 
     // header 1
     wp_enqueue_style('ebp-custom-header-1-style', plugins_url('/widgets/ebp-custom-header-1/assets/style.css', __FILE__), [], '1.0.0');

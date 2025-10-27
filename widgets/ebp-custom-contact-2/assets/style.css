@@ -18,8 +18,8 @@
 
 .ebp-custom-contact-2 h2 {
   position: relative;
-  padding-inline-start: 4.5rem;
-  font-size: 3rem !important;
+  /* padding-inline-start: 4.5rem;
+  font-size: 3rem !important; */
   /* max-width: 300px; */
 }
 
@@ -63,7 +63,7 @@
 @media (max-width: 991px) {
   .ebp-custom-contact-2 h2 {
     position: relative;
-    padding-inline-start: 3rem;
+    /* padding-inline-start: 3rem; */
     font-size: 2.5rem !important;
     max-width: 300px;
   }
