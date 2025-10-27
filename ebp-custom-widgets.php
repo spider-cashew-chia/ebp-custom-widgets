@@ -2,8 +2,8 @@
 /**
  * Plugin Name: EBP Custom Widgets
  * Description: Custom Elementor widgets for e-blueprint digital.
- * Version: 1.0
- * Author: e-blueprint digital real
+ * Version: 2.0
+ * Author: e-blueprint digital
  */
 
 if (!defined('ABSPATH'))
