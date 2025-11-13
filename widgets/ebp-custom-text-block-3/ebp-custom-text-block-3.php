@@ -114,6 +114,33 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
             ]
         );
 
+        // Page Selection for View Button
+        $repeater->add_control(
+            'page_link',
+            [
+                'label' => __('Page Link', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::URL,
+                'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
+                'show_external' => true,
+                'default' => [
+                    'url' => '',
+                    'is_external' => false,
+                    'nofollow' => false,
+                ],
+            ]
+        );
+
+        // Page View Button Text
+        $repeater->add_control(
+            'page_view_button_text',
+            [
+                'label' => __('Page View Button Text', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('View Page', 'ebp-custom-widgets'),
+                'placeholder' => __('View Page', 'ebp-custom-widgets'),
+            ]
+        );
+
         $this->add_control(
             'text_blocks',
             [
@@ -201,14 +228,14 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
                     </div>
                 </div>
             </div>
-            <div class="container mt-4">
+            <div class="container-fluid mt-4">
                 <div class="row">
                     <?php if (!empty($settings['text_blocks'])): ?>
                         <?php foreach ($settings['text_blocks'] as $index => $item): ?>
                             <div class="col-md-4">
                                 <!-- Text Block Content -->
                                 <div class="text-block-item">
-                                    <div class="text-content mb-3">
+                                    <div class="text-content">
                                         <!-- Main content (always visible) -->
                                         <div class="main-content">
                                             <?php echo wp_kses_post($item['main_text_content']); ?>
@@ -227,6 +254,22 @@ class Ebp_Custom_Text_Block_3 extends Widget_Base
                                                     data-read-less="<?php echo esc_attr($item['read_less_text']); ?>" aria-expanded="false">
                                                     <?php echo esc_html($item['read_more_text']); ?>
                                                 </button>
+                                            </div>
+                                        <?php endif; ?>
+
+                                        <!-- page view button -->
+                                        <?php if (!empty($item['page_link']['url'])): ?>
+                                            <div class="page-view-button">
+                                                <?php
+                                                // Get the link attributes
+                                                $target = $item['page_link']['is_external'] ? ' target="_blank"' : '';
+                                                $nofollow = $item['page_link']['nofollow'] ? ' rel="nofollow"' : '';
+                                                $button_text = !empty($item['page_view_button_text']) ? esc_html($item['page_view_button_text']) : __('View Page', 'ebp-custom-widgets');
+                                                ?>
+                                                <a href="<?php echo esc_url($item['page_link']['url']); ?>" class="page-view-link button"
+                                                    <?php echo $target; ?>                     <?php echo $nofollow; ?>>
+                                                    <?php echo $button_text; ?>
+                                                </a>
                                             </div>
                                         <?php endif; ?>
                                     </div>

@@ -114,26 +114,26 @@ class Ebp_Custom_Contact_2 extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         ?>
-<div class="ebp-custom-contact-2">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <!-- Text Content -->
-                <?php if (!empty($settings['text_content'])): ?>
-                <div class="text-content"><?php echo wp_kses_post($settings['text_content']); ?></div>
-                <?php endif; ?>
+        <div class="ebp-custom-contact-2">
+            <div class="container container--wide">
+                <div class="row">
+                    <div class="col">
+                        <!-- Text Content -->
+                        <?php if (!empty($settings['text_content'])): ?>
+                            <div class="text-content"><?php echo wp_kses_post($settings['text_content']); ?></div>
+                        <?php endif; ?>
 
-                <!-- Contact Form 7 -->
-                <?php if (!empty($settings['contact_form_7'])): ?>
-                <div class="contact-form-wrapper">
-                    <?php echo do_shortcode('[contact-form-7 id="' . esc_attr($settings['contact_form_7']) . '"]'); ?>
+                        <!-- Contact Form 7 -->
+                        <?php if (!empty($settings['contact_form_7'])): ?>
+                            <div class="contact-form-wrapper">
+                                <?php echo do_shortcode('[contact-form-7 id="' . esc_attr($settings['contact_form_7']) . '"]'); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <?php endif; ?>
             </div>
         </div>
-    </div>
-</div>
-<?php
+        <?php
     }
 
     /**

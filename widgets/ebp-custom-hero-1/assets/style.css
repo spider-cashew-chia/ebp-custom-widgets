@@ -77,9 +77,9 @@
   font-weight: 300;
 }
 
-.ebp-custom-hero-1 .text-content p:last-of-type {
+/* .ebp-custom-hero-1 .text-content p:last-of-type {
   margin-block-start: 4rem;
-}
+} */
 
 .ebp-custom-hero-1 .text-content a {
   text-decoration: underline;

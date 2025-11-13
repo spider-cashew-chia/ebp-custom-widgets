@@ -1,11 +1,11 @@
 .ebp-custom-contact-2 .form-control {
   background-color: transparent;
-  border: 2px solid #f7f7f7;
-  border-radius: 0;
+  border: 2px solid;
+  border-radius: 8px;
   /* color: #ffffff; */
 }
 .ebp-custom-contact-2 .form-floating label {
-  color: #f7f7f7;
+  color: inherit;
 }
 
 .ebp-custom-contact-2 textarea {
@@ -36,7 +36,7 @@
 }
 
 .custom-button {
-  background-color: #f7f4ec;
+  background-color: inherit;
   padding: 1.1rem 4rem;
   border-radius: 0;
   font-weight: bold;

@@ -29,7 +29,7 @@ window.addEventListener('scroll', () => {
 
 // Headings
 const containers = document.querySelectorAll('.site-main .e-con');
-const targetContainers = Array.from(containers).slice(2); // skip the first two
+const targetContainers = Array.from(containers).slice(1); // skip the first two
 
 // Gather all headings inside the remaining .e-con elements
 const headings = targetContainers.flatMap((container) =>
@@ -81,7 +81,7 @@ paragraphs.forEach((paragraph) => {
 
 // Section images (excluding gallery icons)
 const sectionImages = document.querySelectorAll(
-  'section figure img:not(.gallery-icon)'
+  '.e-con.e-parent img:not(.gallery-icon)'
 );
 gsap.set(sectionImages, { clipPath: 'inset(100% 0 0 0)' });
 sectionImages.forEach((image) => {

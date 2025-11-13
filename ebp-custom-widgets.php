@@ -25,91 +25,66 @@ add_action('elementor/elements/categories_registered', 'add_ebp_custom_widgets_c
 
 
 
-// custom hero 1
-function register_ebp_custom_hero_1($widgets_manager)
+// Automatically register all widgets from the widgets directory
+function register_all_ebp_custom_widgets($widgets_manager)
 {
-    require_once(__DIR__ . '/widgets/ebp-custom-hero-1/ebp-custom-hero-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Hero_1());
+    // Get the widgets directory path
+    $widgets_dir = __DIR__ . '/widgets';
+
+    // Check if the directory exists
+    if (!is_dir($widgets_dir)) {
+        return;
+    }
+
+    // Scan the widgets directory for all widget folders
+    $widget_folders = array_filter(glob($widgets_dir . '/*'), 'is_dir');
+
+    // Loop through each widget folder
+    foreach ($widget_folders as $widget_folder) {
+        // Get the folder name (e.g., "ebp-custom-hero-1")
+        $folder_name = basename($widget_folder);
+
+        // Construct the PHP file path
+        $widget_file = $widget_folder . '/' . $folder_name . '.php';
+
+        // Check if the widget file exists
+        if (!file_exists($widget_file)) {
+            continue;
+        }
+
+        // Convert folder name to class name
+        // Example: "ebp-custom-hero-1" -> "Ebp_Custom_Hero_1"
+        $class_name = convert_folder_to_class_name($folder_name);
+
+        // Require the widget file
+        require_once($widget_file);
+
+        // Check if the class exists before trying to instantiate it
+        if (class_exists($class_name)) {
+            // Register the widget
+            $widgets_manager->register(new $class_name());
+        }
+    }
 }
-add_action('elementor/widgets/register', 'register_ebp_custom_hero_1');
+add_action('elementor/widgets/register', 'register_all_ebp_custom_widgets');
 
-
-
-// text block 3
-function register_ebp_custom_text_block_3($widgets_manager)
+// Helper function to convert folder name to class name
+// Example: "ebp-custom-hero-1" -> "Ebp_Custom_Hero_1"
+function convert_folder_to_class_name($folder_name)
 {
-    require_once(__DIR__ . '/widgets/ebp-custom-text-block-3/ebp-custom-text-block-3.php');
-    $widgets_manager->register(new \Ebp_Custom_Text_Block_3());
+    // Remove the "ebp-custom-" prefix
+    $name_without_prefix = str_replace('ebp-custom-', '', $folder_name);
+
+    // Split by hyphens
+    $parts = explode('-', $name_without_prefix);
+
+    // Capitalize each part and join with underscores
+    $capitalized_parts = array_map('ucfirst', $parts);
+    $class_suffix = implode('_', $capitalized_parts);
+
+    // Return the full class name
+    return 'Ebp_Custom_' . $class_suffix;
 }
-add_action('elementor/widgets/register', 'register_ebp_custom_text_block_3');
-
-// text block 1
-function register_ebp_custom_text_block_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-text-block-1/ebp-custom-text-block-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Text_Block_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_text_block_1');
-
-// custom header 1
-function register_ebp_custom_header_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-header-1/ebp-custom-header-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Header_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_header_1');
-
-
-
-// accordion 1
-function register_ebp_custom_accordion_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-accordion-1/ebp-custom-accordion-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Accordion_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_accordion_1');
-
-// footer 1
-function register_ebp_custom_footer_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-footer-1/ebp-custom-footer-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Footer_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_footer_1');
-
-
-
-// contact 2
-function register_ebp_custom_contact_2($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-contact-2/ebp-custom-contact-2.php');
-    $widgets_manager->register(new \Ebp_Custom_Contact_2());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_contact_2');
-
-// quote 1
-function register_ebp_custom_quote_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-quote-1/ebp-custom-quote-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Quote_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_quote_1');
-
-// services 1
-function register_ebp_custom_services_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-services-1/ebp-custom-services-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Services_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_services_1');
-
-// map
-function register_ebp_custom_map_1($widgets_manager)
-{
-    require_once(__DIR__ . '/widgets/ebp-custom-map-1/ebp-custom-map-1.php');
-    $widgets_manager->register(new \Ebp_Custom_Map_1());
-}
-add_action('elementor/widgets/register', 'register_ebp_custom_map_1');
 
 
 
@@ -150,52 +125,45 @@ function my_widget_assets()
     // main js
     wp_enqueue_script('main-js', plugins_url('/assets/main.js', __FILE__), [], false, true);
 
-    // Individual widget assets
-    // hero 1
-    wp_enqueue_style('ebp-custom-hero-1-style', plugins_url('/widgets/ebp-custom-hero-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-hero-1-script', plugins_url('/widgets/ebp-custom-hero-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+    // Automatically enqueue assets for all widgets
+    $widgets_dir = __DIR__ . '/widgets';
 
+    // Check if the directory exists
+    if (is_dir($widgets_dir)) {
+        // Scan the widgets directory for all widget folders
+        $widget_folders = array_filter(glob($widgets_dir . '/*'), 'is_dir');
 
-    // text block 3
-    wp_enqueue_style('ebp-custom-text-block-3-style', plugins_url('/widgets/ebp-custom-text-block-3/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-text-block-3-script', plugins_url('/widgets/ebp-custom-text-block-3/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+        // Loop through each widget folder
+        foreach ($widget_folders as $widget_folder) {
+            // Get the folder name (e.g., "ebp-custom-hero-1")
+            $folder_name = basename($widget_folder);
 
-    // text block 1
-    wp_enqueue_style('ebp-custom-text-block-1-style', plugins_url('/widgets/ebp-custom-text-block-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-text-block-1-script', plugins_url('/widgets/ebp-custom-text-block-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+            // Construct asset file paths
+            $style_file = $widget_folder . '/assets/style.css';
+            $script_file = $widget_folder . '/assets/script.js';
 
-    // header 1
-    wp_enqueue_style('ebp-custom-header-1-style', plugins_url('/widgets/ebp-custom-header-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-header-1-script', plugins_url('/widgets/ebp-custom-header-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+            // Enqueue CSS if it exists
+            if (file_exists($style_file)) {
+                wp_enqueue_style(
+                    $folder_name . '-style',
+                    plugins_url('/widgets/' . $folder_name . '/assets/style.css', __FILE__),
+                    [],
+                    '1.0.0'
+                );
+            }
 
-
-
-    // accordion 1
-    wp_enqueue_style('ebp-custom-accordion-1-style', plugins_url('/widgets/ebp-custom-accordion-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-accordion-1-script', plugins_url('/widgets/ebp-custom-accordion-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
-
-    // footer 1
-    wp_enqueue_style('ebp-custom-footer-1-style', plugins_url('/widgets/ebp-custom-footer-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-footer-1-script', plugins_url('/widgets/ebp-custom-footer-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
-
-
-
-    // contact 2
-    wp_enqueue_style('ebp-custom-contact-2-style', plugins_url('/widgets/ebp-custom-contact-2/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-contact-2-script', plugins_url('/widgets/ebp-custom-contact-2/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
-
-
-    // quote 1
-    wp_enqueue_style('ebp-custom-quote-1-style', plugins_url('/widgets/ebp-custom-quote-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-quote-1-script', plugins_url('/widgets/ebp-custom-quote-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
-
-    // services 1
-    wp_enqueue_style('ebp-custom-services-1-style', plugins_url('/widgets/ebp-custom-services-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-services-1-script', plugins_url('/widgets/ebp-custom-services-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
-
-    // map
-    wp_enqueue_style('ebp-custom-map-1-style', plugins_url('/widgets/ebp-custom-map-1/assets/style.css', __FILE__), [], '1.0.0');
-    wp_enqueue_script('ebp-custom-map-1-script', plugins_url('/widgets/ebp-custom-map-1/assets/script.js', __FILE__), ['jquery'], '1.0.0', true);
+            // Enqueue JS if it exists
+            if (file_exists($script_file)) {
+                wp_enqueue_script(
+                    $folder_name . '-script',
+                    plugins_url('/widgets/' . $folder_name . '/assets/script.js', __FILE__),
+                    ['jquery'],
+                    '1.0.0',
+                    true
+                );
+            }
+        }
+    }
 }
 add_action('wp_enqueue_scripts', 'my_widget_assets');
 
@@ -207,9 +175,9 @@ function add_loading_animation_to_head()
         return;
     }
     ?>
-<!-- <div id="ebp-loading-overlay">
+    <!-- <div id="ebp-loading-overlay">
         <div class="ebp-loading-content"></div>
     </div> -->
-<?php
+    <?php
 }
 add_action('wp_head', 'add_loading_animation_to_head', 1);

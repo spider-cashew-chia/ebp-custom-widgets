@@ -64,6 +64,29 @@ class Ebp_Custom_Text_Block_1 extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'text_block_heading',
+            [
+                'label' => __('Text Block Heading', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+            ]
+        );
+
+        $this->add_control(
+            'text_block_heading_size',
+            [
+                'label' => __('Text Block Heading Size', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'h1' => 'H1',
+                    'h2' => 'H2',
+                    'h3' => 'H3',
+                    'h4' => 'H4',
+                    'h5' => 'H5',
+                    'h6' => 'H6',
+                ],
+            ]
+        );
         $this->end_controls_section();
 
         // Style section for colors
@@ -108,21 +131,23 @@ class Ebp_Custom_Text_Block_1 extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         ?>
-<!-- Simple text block -->
-<div class="ebp-custom-text-block-1">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <?php if (!empty($settings['text_content'])): ?>
-                <div class="text-content">
-                    <?php echo wp_kses_post($settings['text_content']); ?>
+        <!-- Simple text block -->
+        <div class="ebp-custom-text-block-1">
+            <div class="container container--narrow">
+                <div class="row">
+                    <div class="col">
+                        <!-- add heading -->
+                        <h2 class="text-block-heading"><?php echo esc_html($settings['text_block_heading']); ?></h2>
+                        <?php if (!empty($settings['text_content'])): ?>
+                            <div class="text-content">
+                                <?php echo wp_kses_post($settings['text_content']); ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <?php endif; ?>
             </div>
         </div>
-    </div>
-</div>
-<!-- Simple text block end -->
-<?php
+        <!-- Simple text block end -->
+        <?php
     }
 }

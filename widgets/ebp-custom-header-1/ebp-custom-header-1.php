@@ -164,7 +164,7 @@ class Ebp_Custom_Header_1 extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-header-1' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .ebp-custom-header-1 .navbar-sticky.scrolled' => 'background-color: {{VALUE}};',
                 ],
             ]
         );

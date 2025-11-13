@@ -1,0 +1,55 @@
+.ebp-custom-text-block-image-1 .container .row img {
+  height: 100%;
+  object-fit: cover;
+  /* box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4); */
+  border-radius: 8px;
+}
+
+.ebp-custom-text-block-image-1 .container .row {
+  gap: 5rem;
+}
+
+.ebp-custom-text-block-image-1 .container .row > .col {
+  flex: auto;
+  display: flex;
+}
+
+/* every 1st */
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 1) {
+  flex-direction: row-reverse;
+  gap: 10rem;
+}
+
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 1) img {
+  width: 50%;
+}
+
+/* every 2nd */
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 2) {
+  flex-direction: row;
+  gap: 10rem;
+}
+
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 2) img {
+  width: 30%;
+}
+
+/* every 3rd */
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 3) {
+  flex-direction: row-reverse;
+  gap: 5rem;
+}
+
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 3) img {
+  width: 40%;
+}
+
+/* every 4th */
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 4) {
+  flex-direction: row;
+  gap: 8rem;
+}
+
+.ebp-custom-text-block-image-1 .container .row > .col:nth-child(n + 4) img {
+  width: 40%;
+}

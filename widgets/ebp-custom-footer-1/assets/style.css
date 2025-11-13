@@ -9,6 +9,18 @@
   border-top: 1px solid #fff;
 }
 
+footer .ebp-custom-footer-1 {
+  padding-block-end: 2rem !important;
+}
+
+.footer-copyright {
+  padding-block-start: 2rem !important;
+}
+
+.footer-copyright p {
+  margin-block-end: 0 !important;
+}
+
 /* Footer Logo Section */
 .footer-logo-section {
   text-align: center;

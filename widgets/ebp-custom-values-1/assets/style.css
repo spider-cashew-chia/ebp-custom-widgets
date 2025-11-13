@@ -1,0 +1,61 @@
+.ebp-custom-values-1 .ebp-custom-values-1--item {
+  padding: 3rem;
+  height: 100%;
+  /* border: 1px solid #000; */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ebp-custom-values-1 .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-column-gap: 2rem;
+  grid-row-gap: 2rem;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(1) {
+  grid-area: 1 / 1 / 5 / 2;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(2) {
+  grid-area: 2 / 2 / 6 / 3;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(3) {
+  grid-area: 3 / 3 / 7 / 4;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(4) {
+  grid-area: 5 / 1 / 9 / 2;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(5) {
+  grid-area: 6 / 2 / 10 / 3;
+}
+
+.ebp-custom-values-1 .grid > .grid-cols:nth-child(6) {
+  grid-area: 7 / 3 / 11 / 4;
+}
+
+/* .ebp-custom-values-1 .row > div:nth-child(2) {
+  margin-block-start: 5rem;
+}
+
+.ebp-custom-values-1 .row > div:nth-child(3) {
+  margin-block-start: 11rem;
+}
+
+.ebp-custom-values-1 .row > div:nth-child(4) {
+  margin-block-start: -12rem;
+}
+
+.ebp-custom-values-1 .row > div:nth-child(5) {
+  margin-block-start: -7rem;
+}
+
+.ebp-custom-values-1 .row > div:nth-child(6) {
+  margin-block-start: -1rem;
+} */

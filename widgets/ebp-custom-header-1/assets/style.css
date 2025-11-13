@@ -5,6 +5,13 @@
   z-index: 99;
 }
 
+/* .ebp-custom-header-1 {
+  background-color: transparent !important;
+} */
+/* .navbar-sticky {
+  background-color: transparent !important;
+} */
+
 .navbar {
   padding-inline: 0 !important;
 }
@@ -30,7 +37,7 @@
 }
 
 .scrolled {
-  background-color: inherit;
+  /* background-color: inherit !important; */
   transition: background-color 0.3s ease;
   border-bottom: 1px solid #fff;
 }
@@ -68,7 +75,7 @@
 }
 
 .nav-minimal a {
-  font-size: clamp(3rem, 2.7143rem + 1.4286vw, 4rem) !important;
+  font-size: clamp(2rem, 2.7143rem + 1.4286vw, 3rem) !important;
   color: inherit !important;
   padding-block-end: 1em;
   display: block;

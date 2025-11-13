@@ -408,7 +408,7 @@ class Ebp_Custom_Footer_1 extends Widget_Base
         $settings = $this->get_settings_for_display();
         ?>
 <div class="ebp-custom-footer-1">
-    <div class="container">
+    <div class="container-fluid">
         <!-- Footer Logo Section -->
         <?php if (!empty($settings['footer_logo']['url'])): ?>
         <div class="footer-logo-section">
@@ -498,7 +498,7 @@ class Ebp_Custom_Footer_1 extends Widget_Base
     <!-- Copyright Section -->
     <?php if ($settings['show_copyright'] === 'yes' && !empty($settings['copyright_content'])): ?>
     <div class="footer-copyright">
-        <div class="container">
+        <div class="container container--wide">
             <div class="row">
                 <div class="col-12 text-center">
                     <div class="copyright-content">

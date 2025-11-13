@@ -1,0 +1,19 @@
+.ebp-custom-stat-boxes .ebp-custom-stat-boxes--item {
+  padding: 3rem;
+  height: 100%;
+  /* border: 1px solid #000; */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ebp-custom-stat-boxes .ebp-custom-stat-boxes--number {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.ebp-custom-stat-boxes--content p {
+  margin-bottom: 0 !important;
+}
