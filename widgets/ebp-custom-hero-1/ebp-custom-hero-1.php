@@ -5,6 +5,8 @@ use Elementor\Controls_Manager;
 if (!defined('ABSPATH'))
     exit;
 
+
+
 class Ebp_Custom_Hero_1 extends Widget_Base
 {
 
@@ -23,7 +25,7 @@ class Ebp_Custom_Hero_1 extends Widget_Base
 
 
         // Fallback to default icon if file doesn't exist
-        return 'eicon-hero';
+        return 'eicon-ehp-hero';
     }
 
     public function get_categories()
@@ -45,6 +47,7 @@ class Ebp_Custom_Hero_1 extends Widget_Base
 
     protected function register_controls()
     {
+        // Content Section - for all the content controls
         $this->start_controls_section(
             'content_section',
             [
@@ -53,90 +56,76 @@ class Ebp_Custom_Hero_1 extends Widget_Base
             ]
         );
 
-        // Hero Image
+        // Rich text control for hero content
+        $this->add_control(
+            'hero_content',
+            [
+                'label' => __('Hero Content', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => __('<h1><span class="aximo-title-animation">A creative<img src="assets/images/v1/star.png" alt=""></span>design studio</h1><p>We\'re a creative design studio specializing in meeting the needs of the new generation. We offer innovative and cutting-edge design solutions to help our clients stand out in today\'s fast-paced.</p>', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter your hero content here...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Button text control
+        $this->add_control(
+            'button_text',
+            [
+                'label' => __('Button Text', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('Book a free consultation', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter button text...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Button URL/Page chooser control
+        $this->add_control(
+            'button_url',
+            [
+                'label' => __('Button Link', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::URL,
+                'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
+                'show_external' => true,
+                'default' => [
+                    'url' => '',
+                    'is_external' => false,
+                    'nofollow' => false,
+                ],
+            ]
+        );
+
+        // Image control for hero thumbnail
         $this->add_control(
             'hero_image',
             [
                 'label' => __('Hero Image', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [
-                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                    'url' => '',
                 ],
             ]
         );
 
-        // Hero Heading Field
-        $this->add_control(
-            'hero_heading',
+        $this->end_controls_section();
+
+        // Style Section - for background color
+        $this->start_controls_section(
+            'style_section',
             [
-                'label' => __('Hero Heading', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Your Hero Heading', 'ebp-custom-widgets'),
-                'placeholder' => __('Enter your hero heading', 'ebp-custom-widgets'),
+                'label' => __('Style', 'ebp-custom-widgets'),
+                'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
 
-        // First Rich Text Field
-        $this->add_control(
-            'hero_rich_text_1',
-            [
-                'label' => __('First Rich Text', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<h2>Your Hero Heading</h2><p>This is your first rich text content that can include HTML formatting.</p>', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Link Field
-        $this->add_control(
-            'hero_link',
-            [
-                'label' => __('Hero Link', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::URL,
-                'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Second Rich Text Field
-        $this->add_control(
-            'hero_rich_text_2',
-            [
-                'label' => __('Second Rich Text', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<p>This is your second rich text content with additional information.</p>', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Mobile Rich Text Field
-        $this->add_control(
-            'hero_mobile_rich_text',
-            [
-                'label' => __('Mobile Rich Text', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<p>This content will be displayed on mobile devices only.</p>', 'ebp-custom-widgets'),
-                'description' => __('This rich text content will only be visible on mobile devices (screens smaller than 768px)', 'ebp-custom-widgets'),
-            ]
-        );
-
+        // Background color control for hero section
         $this->add_control(
             'hero_background_color',
             [
-                'label' => __('Hero Background Color', 'ebp-custom-widgets'),
+                'label' => __('Background Color', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#ffffff',
+                'default' => '',
                 'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-hero-1' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'hero_text_color',
-            [
-                'label' => __('Hero Text Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#000000',
-                'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-hero-1' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .aximo-hero-section' => 'background-color: {{VALUE}};',
                 ],
             ]
         );
@@ -144,75 +133,98 @@ class Ebp_Custom_Hero_1 extends Widget_Base
         $this->end_controls_section();
     }
 
+
     protected function render()
     {
+        // Get all the settings for this widget
         $settings = $this->get_settings_for_display();
+
+        // Get button URL settings and build the link attributes
+        $button_url = $settings['button_url'];
+        $button_link = '#';
+        $button_target = '';
+        $button_rel = '';
+
+        if (!empty($button_url['url'])) {
+            $button_link = esc_url($button_url['url']);
+
+            // Add target attribute if link opens in new tab
+            if (!empty($button_url['is_external'])) {
+                $button_target = ' target="_blank"';
+            }
+
+            // Add rel attribute for nofollow links
+            if (!empty($button_url['nofollow'])) {
+                $button_rel = ' rel="nofollow"';
+            }
+        }
+
+        // Get hero image URL
+        $hero_image_url = '';
+        $hero_image_alt = '';
+        if (!empty($settings['hero_image']['url'])) {
+            $hero_image_url = esc_url($settings['hero_image']['url']);
+            $hero_image_alt = !empty($settings['hero_image']['alt']) ? esc_attr($settings['hero_image']['alt']) : '';
+        }
+
+        // Get background color and build inline style
+        $bg_color_style = '';
+        if (!empty($settings['hero_background_color'])) {
+            $bg_color_style = ' style="background-color: ' . esc_attr($settings['hero_background_color']) . ';"';
+        }
+
         ?>
-<div class="overflow-hidden inverted hero-section ebp-custom-hero-1">
-
-    <div class="container-fluid back back-background d-none d-lg-block">
-        <div class="row h-100">
-            <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
-                <figure class="background" role="none">
-                    <?php if (!empty($settings['hero_image']['url'])): ?>
-                    <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
+<!-- Hero  -->
+<div class="aximo-hero-section" <?php echo $bg_color_style; ?>>
+    <div class="container position-relative">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="aximo-hero-content">
+                    <?php
+                            // Output the rich text content
+                            if (!empty($settings['hero_content'])) {
+                                echo wp_kses_post($settings['hero_content']);
+                            }
+                            ?>
+                    <!-- <div class="aximo-hero-user-wrap">
+                        <div class="aximo-hero-user-thumb">
+                            <div class="aximo-hero-user-thumb-item wow fadeInUpX" data-wow-delay="0s">
+                                <img src="assets/images/v1/user1.png" alt="">
+                            </div>
+                            <div class="aximo-hero-user-thumb-item wow fadeInUpX" data-wow-delay="0.25s">
+                                <img src="assets/images/v1/user3.png" alt="">
+                            </div>
+                            <div class="aximo-hero-user-thumb-item wow fadeInUpX" data-wow-delay="0.4s">
+                                <img src="assets/images/v1/user2.png" alt="">
+                            </div>
+                        </div>
+                        <div class="aximo-hero-user-data">
+                            <p>Believed by more than a thousand people</p>
+                        </div>
+                    </div> -->
+                    <?php if (!empty($settings['button_text'])): ?>
+                    <a class="aximo-call-btn" href="<?php echo $button_link; ?>"
+                        <?php echo $button_target . $button_rel; ?>>
+                        <?php echo esc_html($settings['button_text']); ?> <i class="icon-call"></i>
+                    </a>
                     <?php endif; ?>
-                </figure>
-            </div>
-        </div>
-    </div>
-
-    <div
-        class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text d-none d-lg-flex justify-content-center">
-        <div class="row align-items-center  justify-content-lg-start">
-            <div class="col-md-8 col-lg-5  text-lg-start">
-
-
-                <!-- Desktop Rich Text Content -->
-                <div class="text-content mb-3 d-none d-md-block">
-                    <?php echo wp_kses_post($settings['hero_rich_text_1']); ?>
+                    <!-- <div class="aximo-hero-shape">
+                        <img src="assets/images/v1/shape1.png" alt="">
+                    </div> -->
                 </div>
-
-
-
-                <div class="hero-rich-text-2">
-                    <?php echo wp_kses_post($settings['hero_rich_text_2']); ?>
-                </div>
-
             </div>
-        </div>
-    </div>
-
-    <!-- mobile section -->
-    <div class="mobile-section d-block d-lg-none">
-        <div class="mobile-section--image">
-            <figure class="background-1" role="none">
-                <?php if (!empty($settings['hero_image']['url'])): ?>
-                <img src="<?php echo esc_url($settings['hero_image']['url']); ?>" alt="Hero Image" class="w-100">
-                <?php endif; ?>
-            </figure>
-            <!-- Hero Heading -->
-            <div class="container">
-                <div class="row">
-                    <?php if (!empty($settings['hero_heading'])): ?>
-                    <h1 class="hero-heading mb-3"><?php echo esc_html($settings['hero_heading']); ?></h1>
+            <div class="col-lg-4">
+                <div class="aximo-hero-thumb wow fadeInRight" data-wow-delay="0s">
+                    <?php if (!empty($hero_image_url)): ?>
+                    <img src="<?php echo $hero_image_url; ?>" alt="<?php echo $hero_image_alt; ?>">
                     <?php endif; ?>
                 </div>
             </div>
-
-        </div>
-        <div class="mobile-section--text">
-            <!-- Mobile Rich Text Content -->
-            <div class="container">
-
-                <div class="mobile-text-content my-4 ">
-                    <?php echo wp_kses_post($settings['hero_mobile_rich_text']); ?>
-                </div>
-            </div>
         </div>
     </div>
-
 </div>
+<!-- End section -->
+
 <?php
     }
 }

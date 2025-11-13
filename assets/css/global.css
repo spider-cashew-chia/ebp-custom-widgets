@@ -1,0 +1,11 @@
+.e-con.e-parent {
+  padding-inline: 0;
+}
+
+.e-con.e-parent > .e-con-inner {
+  max-width: 100%;
+}
+
+.e-con.e-flex > .e-con-inner {
+  padding-block: 0;
+}

@@ -5,6 +5,8 @@ use Elementor\Controls_Manager;
 if (!defined('ABSPATH'))
     exit;
 
+
+
 class Ebp_Custom_Services_1 extends Widget_Base
 {
 
@@ -23,7 +25,7 @@ class Ebp_Custom_Services_1 extends Widget_Base
 
 
         // Fallback to default icon if file doesn't exist
-        return 'eicon-services';
+        return 'eicon-kit-details';
     }
 
     public function get_categories()
@@ -34,7 +36,7 @@ class Ebp_Custom_Services_1 extends Widget_Base
     // Enqueue widget assets
     public function get_script_depends()
     {
-        return ['jquery', 'ebp-custom-services-1-script'];
+        return ['jquery'];
     }
 
     public function get_style_depends()
@@ -45,6 +47,7 @@ class Ebp_Custom_Services_1 extends Widget_Base
 
     protected function register_controls()
     {
+        // Content Section - for all the content controls
         $this->start_controls_section(
             'content_section',
             [
@@ -53,229 +56,200 @@ class Ebp_Custom_Services_1 extends Widget_Base
             ]
         );
 
-        // Repeater for Hero Sections
+        // Rich text control for section title
+        $this->add_control(
+            'section_title',
+            [
+                'label' => __('Section Title', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::WYSIWYG,
+                'default' => __('<h2>We provide effective<span class="aximo-title-animation">design solutions<span class="aximo-title-icon"><img src="assets/images/v1/star2.png" alt=""></span></span></h2>', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter your section title here...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        $this->end_controls_section();
+
+        // Services Repeater Section
+        $this->start_controls_section(
+            'services_section',
+            [
+                'label' => __('Services', 'ebp-custom-widgets'),
+                'tab' => Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        // Repeater control for services
         $repeater = new \Elementor\Repeater();
 
-        // Image
+        // Icon class control
         $repeater->add_control(
-            'image',
+            'service_icon',
             [
-                'label' => __('Image', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::MEDIA,
+                'label' => __('Icon Class', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('icon-design-tools', 'ebp-custom-widgets'),
+                'placeholder' => __('e.g., icon-design-tools', 'ebp-custom-widgets'),
+                'description' => __('Enter the icon class name (e.g., icon-design-tools, icon-branding)', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Service title control
+        $repeater->add_control(
+            'service_title',
+            [
+                'label' => __('Service Title', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXT,
+                'default' => __('UI/UX Design', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter service title...', 'ebp-custom-widgets'),
+            ]
+        );
+
+        // Service description control
+        $repeater->add_control(
+            'service_description',
+            [
+                'label' => __('Service Description', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::TEXTAREA,
+                'default' => __('Focusing on user interface (UI) and user experience (UX) design enhance the usability and accessibility of digital products & app.', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter service description...', 'ebp-custom-widgets'),
+                'rows' => 3,
+            ]
+        );
+
+        // Service link control
+        $repeater->add_control(
+            'service_link',
+            [
+                'label' => __('Service Link', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::URL,
+                'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
+                'show_external' => true,
                 'default' => [
-                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                    'url' => '#',
+                    'is_external' => false,
+                    'nofollow' => false,
                 ],
             ]
         );
 
-        // Main Text Content (always visible)
+        // Animation delay control
         $repeater->add_control(
-            'main_text_content',
+            'animation_delay',
             [
-                'label' => __('Main Text Content', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<h2>Your Hero Heading</h2><p>This is your main content that will always be visible.</p>', 'ebp-custom-widgets'),
-                'placeholder' => __('Enter your main content here...', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Expanded Text Content (hidden by default)
-        $repeater->add_control(
-            'expanded_text_content',
-            [
-                'label' => __('Expanded Text Content', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::WYSIWYG,
-                'default' => __('<p>This is additional content that will be hidden by default and shown when the read more button is clicked.</p>', 'ebp-custom-widgets'),
-                'placeholder' => __('Enter your expanded content here...', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Read More Button Text
-        $repeater->add_control(
-            'read_more_text',
-            [
-                'label' => __('Read More Button Text', 'ebp-custom-widgets'),
+                'label' => __('Animation Delay', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::TEXT,
-                'default' => __('Read More', 'ebp-custom-widgets'),
-                'placeholder' => __('Read More', 'ebp-custom-widgets'),
+                'default' => __('0.1s', 'ebp-custom-widgets'),
+                'placeholder' => __('e.g., 0.1s', 'ebp-custom-widgets'),
+                'description' => __('Enter animation delay value (e.g., 0.1s, 0.2s)', 'ebp-custom-widgets'),
             ]
         );
 
-        // Read Less Button Text
-        $repeater->add_control(
-            'read_less_text',
-            [
-                'label' => __('Read Less Button Text', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Read Less', 'ebp-custom-widgets'),
-                'placeholder' => __('Read Less', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Background Color
-        $repeater->add_control(
-            'background_color',
-            [
-                'label' => __('Background Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#ffffff',
-                'selectors' => [
-                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'background-color: {{VALUE}} !important;',
-                ],
-            ]
-        );
-
-        // Font Color
-        $repeater->add_control(
-            'font_color',
-            [
-                'label' => __('Font Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#000000',
-                'selectors' => [
-                    '{{WRAPPER}} {{CURRENT_ITEM}}' => 'color: {{VALUE}} !important;',
-                ],
-            ]
-        );
-
-        // Gallery Images for this service item
-        $repeater->add_control(
-            'gallery_images',
-            [
-                'label' => __('Gallery Images', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::GALLERY,
-                'default' => [],
-                'separator' => 'before',
-            ]
-        );
-
+        // Add the repeater to the widget
         $this->add_control(
-            'hero_sections',
+            'services_list',
             [
-                'label' => __('Hero Sections', 'ebp-custom-widgets'),
+                'label' => __('Services List', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [
                     [
-                        'main_text_content' => __('<h2>First Hero Section</h2><p>This is your first hero content.</p>', 'ebp-custom-widgets'),
-                        'expanded_text_content' => __('<p>This is additional content for the first section.</p>', 'ebp-custom-widgets'),
-                        'read_more_text' => __('Read More', 'ebp-custom-widgets'),
-                        'read_less_text' => __('Read Less', 'ebp-custom-widgets'),
+                        'service_icon' => __('icon-design-tools', 'ebp-custom-widgets'),
+                        'service_title' => __('UI/UX Design', 'ebp-custom-widgets'),
+                        'service_description' => __('Focusing on user interface (UI) and user experience (UX) design enhance the usability and accessibility of digital products & app.', 'ebp-custom-widgets'),
+                        'service_link' => ['url' => '#'],
+                        'animation_delay' => __('0.1s', 'ebp-custom-widgets'),
                     ],
                     [
-                        'main_text_content' => __('<h2>Second Hero Section</h2><p>This is your second hero content.</p>', 'ebp-custom-widgets'),
-                        'expanded_text_content' => __('<p>This is additional content for the second section.</p>', 'ebp-custom-widgets'),
-                        'read_more_text' => __('Read More', 'ebp-custom-widgets'),
-                        'read_less_text' => __('Read Less', 'ebp-custom-widgets'),
+                        'service_icon' => __('icon-branding', 'ebp-custom-widgets'),
+                        'service_title' => __('Graphic Design', 'ebp-custom-widgets'),
+                        'service_description' => __('Creating visual elements such as logos, branding materials, page layout techniques, brochures, & other marketing collateral.', 'ebp-custom-widgets'),
+                        'service_link' => ['url' => '#'],
+                        'animation_delay' => __('0.2s', 'ebp-custom-widgets'),
+                    ],
+                    [
+                        'service_icon' => __('icon-web', 'ebp-custom-widgets'),
+                        'service_title' => __('Web Design', 'ebp-custom-widgets'),
+                        'service_description' => __('Designing and developing websites to ensure they are visually look and appealing, user-friendly, and functional your website.', 'ebp-custom-widgets'),
+                        'service_link' => ['url' => '#'],
+                        'animation_delay' => __('0.3s', 'ebp-custom-widgets'),
+                    ],
+                    [
+                        'service_icon' => __('icon-design-thinking', 'ebp-custom-widgets'),
+                        'service_title' => __('Motion Graphics', 'ebp-custom-widgets'),
+                        'service_description' => __('Creating animate graphics, videos for various purposes, including marketing and entertainment. To help sell a product or service.', 'ebp-custom-widgets'),
+                        'service_link' => ['url' => '#'],
+                        'animation_delay' => __('0.4s', 'ebp-custom-widgets'),
                     ],
                 ],
-                'title_field' => '{{{ main_text_content.replace(/<[^>]*>/g, "").substring(0, 50) }}}...',
+                'title_field' => '{{{ service_title }}}',
             ]
         );
 
         $this->end_controls_section();
     }
 
+
     protected function render()
     {
+        // Get all the settings for this widget
         $settings = $this->get_settings_for_display();
 
-        // Check if we have hero sections
-        if (empty($settings['hero_sections'])) {
-            return;
-        }
+        ?>
 
-        // Loop through each hero section in the repeater
-        foreach ($settings['hero_sections'] as $index => $item):
-            // Get background and font colors for this item
-            $background_color = !empty($item['background_color']) ? $item['background_color'] : '#ffffff';
-            $font_color = !empty($item['font_color']) ? $item['font_color'] : '#000000';
-            ?>
-<div class="overflow-hidden inverted ebp-custom-services-1 elementor-repeater-item-<?php echo esc_attr($item['_id']); ?>"
-    style="background-color: <?php echo esc_attr($background_color); ?>; color: <?php echo esc_attr($font_color); ?>;">
-
-
-    <div class=" container-fluid back back-background">
-        <div class="row h-100">
-            <div class="col-lg-6 offset-lg-6" data-aos="fade-in">
-                <figure class="background" role="none">
-                    <?php if (!empty($item['image']['url'])): ?>
-                    <img src="<?php echo esc_url($item['image']['url']); ?>" alt="Image" class="w-100">
-                    <?php endif; ?>
-
-                    <!-- Gallery Icon Overlay -->
-                    <?php if (!empty($item['gallery_images'])): ?>
-                    <div class="gallery-icon-overlay" data-gallery-id="gallery-<?php echo esc_attr($item['_id']); ?>">
-                        <img src="/wp-content/uploads/2025/09/view-gallery-icon-1.svg" alt="View Gallery"
-                            class="gallery-icon">
-                    </div>
-                    <?php endif; ?>
-                </figure>
-
-            </div>
+<div class="section aximo-section-padding4">
+    <div class="container">
+        <?php if (!empty($settings['section_title'])): ?>
+        <div class="aximo-section-title center">
+            <?php echo wp_kses_post($settings['section_title']); ?>
         </div>
-    </div>
+        <?php endif; ?>
+        <div class="aximo-service-wrap">
+            <div class="row">
+                <?php
+                        // Check if services list exists and has items
+                        if (!empty($settings['services_list'])) {
+                            foreach ($settings['services_list'] as $index => $service) {
+                                // Get service link settings
+                                $service_link = $service['service_link'];
+                                $service_url = !empty($service_link['url']) ? esc_url($service_link['url']) : '#';
+                                $service_target = !empty($service_link['is_external']) ? ' target="_blank"' : '';
+                                $service_nofollow = !empty($service_link['nofollow']) ? ' rel="nofollow"' : '';
 
-    <div class="d-flex flex-column container py-10 min-vh-100 level-1 hero-section--text">
-        <div class="row align-items-center justify-content-center justify-content-lg-start my-auto">
-            <div class="col-md-8 col-lg-5 text-lg-start">
-                <div class="text-content mb-3">
-                    <!-- Main content (always visible) -->
-                    <div class="main-content">
-                        <?php echo wp_kses_post($item['main_text_content']); ?>
+                                // Get animation delay, default to empty if not set
+                                $animation_delay = !empty($service['animation_delay']) ? esc_attr($service['animation_delay']) : '';
+                                $delay_attr = !empty($animation_delay) ? ' data-wow-delay="' . $animation_delay . '"' : '';
+                                ?>
+                <div class="col-lg-6">
+                    <div class="aximo-iconbox-wrap wow fadeInUpX" <?php echo $delay_attr; ?>>
+                        <?php if (!empty($service['service_icon'])): ?>
+                        <div class="aximo-iconbox-icon">
+                            <i class="<?php echo esc_attr($service['service_icon']); ?>"></i>
+                        </div>
+                        <?php endif; ?>
+                        <div class="aximo-iconbox-data">
+                            <?php if (!empty($service['service_title'])): ?>
+                            <h3><?php echo esc_html($service['service_title']); ?></h3>
+                            <?php endif; ?>
+                            <?php if (!empty($service['service_description'])): ?>
+                            <p><?php echo esc_html($service['service_description']); ?></p>
+                            <?php endif; ?>
+                            <a class="aximo-icon" href="<?php echo $service_url; ?>"
+                                <?php echo $service_target . $service_nofollow; ?>>
+                                <img src="assets/images/icon/arrow-right.svg" alt="">
+                            </a>
+                        </div>
                     </div>
-
-                    <!-- Expanded content (hidden by default) -->
-                    <?php if (!empty($item['expanded_text_content'])): ?>
-                    <div class="expanded-content" style="display: none;">
-                        <?php echo wp_kses_post($item['expanded_text_content']); ?>
-                    </div>
-
-                    <!-- Read More/Less Button -->
-                    <div class="read-more-container">
-                        <button class="read-more-btn" data-item-id="<?php echo esc_attr($item['_id']); ?>"
-                            data-read-more="<?php echo esc_attr($item['read_more_text']); ?>"
-                            data-read-less="<?php echo esc_attr($item['read_less_text']); ?>">
-                            <?php echo esc_html($item['read_more_text']); ?>
-                        </button>
-                    </div>
-                    <?php endif; ?>
                 </div>
-
+                <?php
+                            }
+                        }
+                        ?>
             </div>
         </div>
     </div>
-
-
-
 </div>
-<?php
-        endforeach;
+<!-- End section -->
 
-        // Add popup galleries for each service item that has gallery images
-        foreach ($settings['hero_sections'] as $index => $item):
-            if (!empty($item['gallery_images'])):
-                ?>
-<!-- Gallery Popup -->
-<div id="gallery-<?php echo esc_attr($item['_id']); ?>" class="gallery-popup" style="display: none;">
-    <div class="gallery-popup-overlay"></div>
-    <div class="gallery-popup-content">
-        <button class="gallery-close" aria-label="Close Gallery">&times;</button>
-        <div class="gallery-slider">
-            <?php foreach ($item['gallery_images'] as $gallery_image): ?>
-            <div class="gallery-slide">
-                <img src="<?php echo esc_url($gallery_image['url']); ?>" alt="Gallery Image">
-            </div>
-            <?php endforeach; ?>
-        </div>
-        <div class="gallery-navigation">
-            <button class="gallery-prev" aria-label="Previous Image">&#8249;</button>
-            <button class="gallery-next" aria-label="Next Image">&#8250;</button>
-        </div>
-    </div>
-</div>
 <?php
-            endif;
-        endforeach;
     }
 }

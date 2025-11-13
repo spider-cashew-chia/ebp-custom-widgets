@@ -5,6 +5,124 @@ use Elementor\Controls_Manager;
 if (!defined('ABSPATH'))
     exit;
 
+// Custom walker class to match the existing menu structure
+// This class must be defined outside of the widget class
+class Ebp_Custom_Menu_Walker extends Walker_Nav_Menu
+{
+    private $submenu_counter = 0;
+
+    // Start the list element
+    function start_lvl(&$output, $depth = 0, $args = null)
+    {
+        $indent = str_repeat("\t", $depth);
+        $this->submenu_counter++;
+        $submenu_id = 'submenu-' . $this->submenu_counter;
+
+        // Check if this is a nested submenu (depth > 0 means it's inside another submenu)
+        if ($depth > 0) {
+            $output .= "\n$indent<ul class=\"sub-menu shape-none\" id=\"$submenu_id\">\n";
+        } else {
+            $output .= "\n$indent<ul class=\"sub-menu\" id=\"$submenu_id\">\n";
+        }
+    }
+
+    // End the list element
+    function end_lvl(&$output, $depth = 0, $args = null)
+    {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+
+    // Start each menu item
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0)
+    {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+
+        // Get classes for the menu item
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+
+        // Check if item has children
+        $has_children = in_array('menu-item-has-children', $classes);
+
+        // Build class string
+        if ($depth === 0) {
+            // Top level items
+            $class_names = 'nav-item';
+            if ($has_children) {
+                $class_names .= ' nav-item-has-children';
+            }
+        } else {
+            // Submenu items
+            $class_names = 'sub-menu--item';
+            if ($has_children) {
+                $class_names .= ' nav-item-has-children';
+            }
+        }
+
+        // Build the link attributes
+        $attributes = !empty($item->attr_title) ? ' title="' . esc_attr($item->attr_title) . '"' : '';
+        $attributes .= !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
+        $attributes .= !empty($item->xfn) ? ' rel="' . esc_attr($item->xfn) . '"' : '';
+
+        // Determine link class and href
+        if ($depth === 0) {
+            // Top level items
+            $link_class = 'nav-link-item';
+            if ($has_children) {
+                $link_class .= ' drop-trigger';
+                // Items with children use # as href
+                $href = ' href="#"';
+            } else {
+                // Items without children use their actual URL
+                $href = !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : ' href="#"';
+            }
+        } else {
+            // Submenu items
+            if ($has_children) {
+                $link_class = 'drop-trigger';
+                $attributes .= ' data-menu-get="h3"';
+                // Submenu items with children use # as href
+                $href = ' href="#"';
+            } else {
+                $link_class = '';
+                // Submenu items without children use their actual URL
+                $href = !empty($item->url) ? ' href="' . esc_attr($item->url) . '"' : ' href="#"';
+            }
+        }
+
+        $item_output = '';
+
+        // Start the list item
+        $output .= $indent . '<li class="' . esc_attr($class_names) . '">';
+
+        // Build the anchor tag
+        $item_output .= '<a class="' . esc_attr($link_class) . '"' . $href . $attributes . '>';
+
+        // Add menu item text wrapped in span for submenu items
+        if ($depth > 0) {
+            $item_output .= '<span class="menu-item-text">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
+        } else {
+            $item_output .= apply_filters('the_title', $item->title, $item->ID);
+        }
+
+        // Add dropdown icon if item has children
+        if ($has_children) {
+            $item_output .= ' <i class="fas fa-angle-down"></i>';
+        }
+
+        $item_output .= '</a>';
+
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+
+    // End each menu item
+    function end_el(&$output, $item, $depth = 0, $args = null)
+    {
+        $output .= "</li>\n";
+    }
+}
+
 class Ebp_Custom_Header_1 extends Widget_Base
 {
 
@@ -20,7 +138,9 @@ class Ebp_Custom_Header_1 extends Widget_Base
 
     public function get_icon()
     {
-        // Header icon
+
+
+        // Fallback to default icon if file doesn't exist
         return 'eicon-header';
     }
 
@@ -40,170 +160,95 @@ class Ebp_Custom_Header_1 extends Widget_Base
         return ['ebp-custom-header-1-style'];
     }
 
+
     protected function register_controls()
     {
+        // Logo Section
         $this->start_controls_section(
-            'content_section',
+            'logo_section',
             [
-                'label' => __('Header Content', 'ebp-custom-widgets'),
+                'label' => __('Logo', 'ebp-custom-widgets'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
 
-        // Logo
+        // Logo Image Control
         $this->add_control(
-            'header_logo',
+            'logo_image',
             [
-                'label' => __('Logo', 'ebp-custom-widgets'),
+                'label' => __('Logo Image', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [
-                    'url' => \Elementor\Utils::get_placeholder_image_src(),
+                    'url' => '',
                 ],
+                'description' => __('Upload your logo image', 'ebp-custom-widgets'),
             ]
         );
 
-        // Logo Link
+        // Logo Link Control
         $this->add_control(
             'logo_link',
             [
                 'label' => __('Logo Link', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::URL,
-                'placeholder' => __('https://your-site.com', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // Navigation Menu
-        $this->add_control(
-            'nav_menu',
-            [
-                'label' => __('Navigation Menu', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::SELECT,
-                'options' => $this->get_nav_menus(),
-                'default' => '',
-            ]
-        );
-
-        // CTA Button Text
-        $this->add_control(
-            'cta_text',
-            [
-                'label' => __('CTA Button Text', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('Get Started', 'ebp-custom-widgets'),
-            ]
-        );
-
-        // CTA Button Link
-        $this->add_control(
-            'cta_link',
-            [
-                'label' => __('CTA Button Link', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::URL,
                 'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
+                'default' => [
+                    'url' => home_url('/'),
+                ],
+                'description' => __('Set the URL where the logo should link to', 'ebp-custom-widgets'),
             ]
         );
 
-        // Contact Email
-        $this->add_control(
-            'contact_email',
+        $this->end_controls_section();
+
+        // Header Button Section
+        $this->start_controls_section(
+            'header_button_section',
             [
-                'label' => __('Contact Email', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('mail@example.co.uk', 'ebp-custom-widgets'),
+                'label' => __('Header Button', 'ebp-custom-widgets'),
+                'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
 
-        // Contact Phone
+        // Show/Hide Button Toggle
         $this->add_control(
-            'contact_phone',
+            'show_header_button',
             [
-                'label' => __('Contact Phone', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::TEXT,
-                'default' => __('07123456789', 'ebp-custom-widgets'),
+                'label' => __('Show Header Button', 'ebp-custom-widgets'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'ebp-custom-widgets'),
+                'label_off' => __('No', 'ebp-custom-widgets'),
+                'return_value' => 'yes',
+                'default' => 'yes',
             ]
         );
 
-        // Side CTA Link Text
+        // Button Text Control
         $this->add_control(
-            'side_cta_text',
+            'header_button_text',
             [
-                'label' => __('Side CTA Text', 'ebp-custom-widgets'),
+                'label' => __('Button Text', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::TEXT,
                 'default' => __('Contact Us', 'ebp-custom-widgets'),
-                'description' => __('Text displayed for the side CTA link', 'ebp-custom-widgets'),
+                'placeholder' => __('Enter button text', 'ebp-custom-widgets'),
+                'condition' => [
+                    'show_header_button' => 'yes',
+                ],
             ]
         );
 
-        // Side CTA Link
+        // Button Link Control
         $this->add_control(
-            'side_cta_link',
+            'header_button_link',
             [
-                'label' => __('Side CTA Link', 'ebp-custom-widgets'),
+                'label' => __('Button Link', 'ebp-custom-widgets'),
                 'type' => Controls_Manager::URL,
                 'placeholder' => __('https://your-link.com', 'ebp-custom-widgets'),
-                'description' => __('Link URL for the side CTA button', 'ebp-custom-widgets'),
-            ]
-        );
-
-        $this->end_controls_section();
-
-        // Style Section
-        $this->start_controls_section(
-            'style_section',
-            [
-                'label' => __('Header Styles', 'ebp-custom-widgets'),
-                'tab' => Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-        // Header Background Color
-        $this->add_control(
-            'header_background_color',
-            [
-                'label' => __('Header Background Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#ffffff',
-                'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-header-1' => 'background-color: {{VALUE}};',
+                'default' => [
+                    'url' => '#',
                 ],
-            ]
-        );
-
-        // Header Text Color
-        $this->add_control(
-            'header_text_color',
-            [
-                'label' => __('Header Text Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#000000',
-                'selectors' => [
-                    '{{WRAPPER}} .ebp-custom-header-1' => 'color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        // CTA Button Background Color
-        $this->add_control(
-            'cta_background_color',
-            [
-                'label' => __('CTA Button Background Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#007cba',
-                'selectors' => [
-                    '{{WRAPPER}} .header-cta-button' => 'background-color: {{VALUE}};',
-                ],
-            ]
-        );
-
-        // CTA Button Text Color
-        $this->add_control(
-            'cta_text_color',
-            [
-                'label' => __('CTA Button Text Color', 'ebp-custom-widgets'),
-                'type' => Controls_Manager::COLOR,
-                'default' => '#ffffff',
-                'selectors' => [
-                    '{{WRAPPER}} .header-cta-button' => 'color: {{VALUE}};',
+                'condition' => [
+                    'show_header_button' => 'yes',
                 ],
             ]
         );
@@ -211,137 +256,89 @@ class Ebp_Custom_Header_1 extends Widget_Base
         $this->end_controls_section();
     }
 
-    // Helper function to get navigation menus
-    private function get_nav_menus()
-    {
-        $menus = wp_get_nav_menus();
-        $options = ['' => __('Select Menu', 'ebp-custom-widgets')];
-        
-        foreach ($menus as $menu) {
-            $options[$menu->term_id] = $menu->name;
-        }
-        
-        return $options;
-    }
 
     protected function render()
     {
-        $settings = $this->get_settings_for_display();
         ?>
-<div class="ebp-custom-header-1">
-    <nav class="navbar navbar-expand-lg navbar-sticky navbar-dark">
-        <div class="container">
-            <div class="site-branding">
-                <!-- Logo -->
-                <div class="col-auto">
-                    <?php if (!empty($settings['logo_link']['url'])): ?>
-                    <a href="<?php echo esc_url($settings['logo_link']['url']); ?>"
-                        <?php echo $settings['logo_link']['is_external'] ? 'target="_blank"' : ''; ?>
-                        <?php echo $settings['logo_link']['nofollow'] ? 'rel="nofollow"' : ''; ?>>
-                        <?php endif; ?>
-
-                        <?php if (!empty($settings['header_logo']['url'])): ?>
-                        <img src="<?php echo esc_url($settings['header_logo']['url']); ?>" alt="Logo"
-                            class="header-logo">
-                        <?php endif; ?>
-
-                        <?php if (!empty($settings['logo_link']['url'])): ?>
-                    </a>
-                    <?php endif; ?>
-                </div>
-            </div><!-- .site-branding -->
-
-            <div class="header-right gap-3 text-white d-flex align-items-center sg">
-                <!-- Contact Email -->
-                <?php if (!empty($settings['contact_email'])): ?>
-                <a href="mailto:<?php echo esc_attr($settings['contact_email']); ?>"
-                    class="header-email d-none d-sm-inline-block">
-                    e: <?php echo esc_html($settings['contact_email']); ?>
-                </a>
-                <?php endif; ?>
-
-                <!-- Contact Phone -->
-                <?php if (!empty($settings['contact_phone'])): ?>
-                <a href="tel:+44<?php echo esc_attr($settings['contact_phone']); ?>"
-                    class="nav-link d-none d-sm-inline-block">
-                    t: <?php echo esc_html($settings['contact_phone']); ?>
-                </a>
-                <?php endif; ?>
-
-                <ul class="navbar-nav navbar-nav-secondary order-lg-3">
-                    <li class="nav-item" data-bs-toggle="offcanvas" href="#offcanvasNav" role="button"
-                        aria-controls="offcanvasNav" aria-label="button" tabindex="0">
-                        <span class="nav-line" role="none"></span>
-                        <span class="nav-line" role="none"></span>
-                        <span class="nav-line" role="none"></span>
-                        <!-- <a class="nav-link nav-icon" data-bs-toggle="offcanvas" href="#offcanvasNav"
-role="button" aria-controls="offcanvasNav">
-<span class="bi bi-list"></span>
-</a> -->
-                    </li>
-                </ul>
-
-            </div>
-
-        </div>
-    </nav>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
-        <div class="offcanvas-header text-black">
-            <!-- <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5> -->
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">
-                <!-- <i class="bi bi-x"></i> -->
-            </button>
-        </div>
-        <div class="offcanvas-body text-black">
+<header class="site-header aximo-header-section aximo-header1 dark-bg" id="sticky-menu">
+    <div class="container">
+        <nav class="navbar site-navbar">
+            <!-- Brand Logo-->
             <?php
-            // Use the selected menu from widget settings
-            if (!empty($settings['nav_menu'])) {
-                wp_nav_menu(array(
-                    'menu' => $settings['nav_menu'],
-                    'container' => false,
-                    'menu_class' => 'navbar-nav',
-                    'fallback_cb' => '__return_false',
-                    'items_wrap' => '<ul id="toc-nav" class="ms-0 nav nav-minimal">%3$s</ul>',
-                    'depth' => 2
-                ));
-            } else {
-                // Fallback to theme location if no menu selected
-                wp_nav_menu(array(
-                    'theme_location' => 'menu-1',
-                    'container' => false,
-                    'menu_class' => 'navbar-nav',
-                    'fallback_cb' => '__return_false',
-                    'items_wrap' => '<ul id="toc-nav" class="ms-0 nav nav-minimal">%3$s</ul>',
-                    'depth' => 2
-                ));
-            }
-            ?>
-        </div>
-        <!-- <div class="offcanvas-footer border-top py-3 mt-3">
+                    // Get logo settings from controls
+                    $logo_image = $this->get_settings_for_display('logo_image');
+                    $logo_link = $this->get_settings_for_display('logo_link');
 
+                    // Default logo link to home URL if not set
+                    $logo_url = !empty($logo_link['url']) ? esc_url($logo_link['url']) : esc_url(home_url('/'));
+                    $logo_target = !empty($logo_link['is_external']) ? ' target="_blank"' : '';
+                    $logo_nofollow = !empty($logo_link['nofollow']) ? ' rel="nofollow"' : '';
 
-
-        </div> -->
-    </div>
-
-    <div class="side-cta">
-        <div class="side-cta--container">
-            <div class="side-cta--link">
-                <?php if (!empty($settings['side_cta_text']) && !empty($settings['side_cta_link']['url'])): ?>
-                <a href="<?php echo esc_url($settings['side_cta_link']['url']); ?>"
-                    <?php echo $settings['side_cta_link']['is_external'] ? 'target="_blank"' : ''; ?>
-                    <?php echo $settings['side_cta_link']['nofollow'] ? 'rel="nofollow"' : ''; ?> class="side-cta-link">
-                    <?php echo esc_html($settings['side_cta_text']); ?>
+                    // Only show logo if image is set
+                    if (!empty($logo_image['url'])):
+                        ?>
+            <div class="brand-logo">
+                <a href="<?php echo $logo_url; ?>" <?php echo $logo_target . $logo_nofollow; ?>>
+                    <img src="<?php echo esc_url($logo_image['url']); ?>"
+                        alt="<?php echo esc_attr(get_bloginfo('name')); ?>" class="light-version-logo">
                 </a>
-                <?php endif; ?>
             </div>
-        </div>
+            <?php endif; ?>
+            <div class="menu-block-wrapper">
+                <div class="menu-overlay"></div>
+                <nav class="menu-block" id="append-menu-header">
+                    <div class="mobile-menu-head">
+                        <div class="go-back">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+                        <div class="current-menu-title"></div>
+                        <div class="mobile-menu-close">&times;</div>
+                    </div>
+                    <?php
+                            // Display the WordPress menu using the custom walker
+                            wp_nav_menu(array(
+                                'theme_location' => 'primary',
+                                'menu_class' => 'site-menu-main',
+                                'container' => false,
+                                'walker' => new Ebp_Custom_Menu_Walker(),
+                                'fallback_cb' => function () {
+                                    echo '<ul class="site-menu-main"><li class="nav-item"><a href="' . esc_url(home_url('/')) . '" class="nav-link-item">' . __('Home', 'ebp-custom-widgets') . '</a></li></ul>';
+                                }
+                            ));
+                            ?>
+                </nav>
+            </div>
+
+            <?php
+                    // Get header button settings from controls
+                    $show_button = $this->get_settings_for_display('show_header_button');
+                    $button_text = $this->get_settings_for_display('header_button_text');
+                    $button_link = $this->get_settings_for_display('header_button_link');
+
+                    // Only show button if enabled and text is set
+                    if ($show_button === 'yes' && !empty($button_text)):
+                        // Get button link URL, default to # if not set
+                        $button_url = !empty($button_link['url']) ? esc_url($button_link['url']) : '#';
+                        $button_target = !empty($button_link['is_external']) ? ' target="_blank"' : '';
+                        $button_nofollow = !empty($button_link['nofollow']) ? ' rel="nofollow"' : '';
+                        ?>
+            <div class="header-btn header-btn-l1 ms-auto d-none d-xs-inline-flex">
+                <a class="aximo-default-btn pill aximo-header-btn" href="<?php echo $button_url; ?>"
+                    <?php echo $button_target . $button_nofollow; ?>>
+                    <?php echo esc_html($button_text); ?>
+                </a>
+            </div>
+            <?php endif; ?>
+            <!-- mobile menu trigger -->
+            <div class="mobile-menu-trigger light">
+                <span></span>
+            </div>
+            <!--/.Mobile Menu Hamburger Ends-->
+        </nav>
     </div>
+</header>
+<!--End landex-header-section -->
 
-
-
-</div>
 <?php
     }
 }
